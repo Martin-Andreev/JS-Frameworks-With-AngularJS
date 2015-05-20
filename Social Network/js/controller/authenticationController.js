@@ -1,41 +1,56 @@
 app.controller('AuthenticationController',
-    function ($scope, $location, $rootScope, authenticationService, notifyService) {
-        $scope.login = function () {
-            $scope.login = function (userData) {
-                authenticationService.login(
-                    userData,
-                    function success(serverData) {
-                        notifyService.showInfo("Login successful");
-                        authenticationService.setCredentials(serverData);
-                        $location.path("/");
-                    },
-                    function error(err) {
-                        notifyService.showError('Unsuccessful Login', err);
-                    }
-                );
-            };
+    function ($scope, $location, $rootScope, authenticationService, notifyService, $localStorage) {
+        $scope.login = function (userData) {
+            authenticationService.login(
+                userData,
+                function success(serverData) {
+                    notifyService.showInfo("Successfully logged in");
+                    authenticationService.setCredentials(serverData);
+                    $location.path("/");
+                },
+                function error(err) {
+                    notifyService.showError('Unsuccessful login', err);
+                }
+            );
         };
 
-        $scope.register = function () {
-            $scope.register = function (userData) {
-                authenticationService.register(
-                    userData,
-                    function success(serverData) {
-                        notifyService.showInfo('Successfully register');
-                        authenticationService.setCredentials(serverData);
-                    },
-                    function error(err) {
-                        notifyService.showError("Unsuccessful Register", err);
-                    }
-                );
-            };
-        }
-    });
+        $scope.register = function (userData) {
+            authenticationService.register(
+                userData,
+                function success(serverData) {
+                    notifyService.showInfo('Successfully registered');
+                    authenticationService.setCredentials(serverData);
+                },
+                function error(err) {
+                    notifyService.showError("Unable to register", err);
+                }
+            );
+        };
 
-//$scope.register = function (user) {
-//    userData.register(user,
-//        function (serverData) {
-//        },
-//        function (serverError) {
-//        });
-//};
+        $scope.logout = function () {
+            authenticationService.logout(
+                function success(serverData) {
+                    notifyService.showInfo('Successfully logged out');
+                    $location.path('#/');
+                    authenticationService.clearCredentials(serverData);
+                },
+                function error(err) {
+                    notifyService.showError("Unable to logout", err);
+                }
+            );
+        };
+
+        $scope.editProfile = function (userData) {
+            authenticationService.editProfile(
+                userData,
+                function success(serverData) {
+                    notifyService.showInfo('Your profile has been successfully edited');
+                    authenticationService.setCredentials(serverData);
+                    $location.path('#/');
+                },
+                function error(err) {
+                    notifyService.showError("Unable to edit your profile", err);
+                }
+            );
+        };
+    });

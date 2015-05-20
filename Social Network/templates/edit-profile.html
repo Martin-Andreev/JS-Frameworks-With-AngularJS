@@ -1,0 +1,82 @@
+<div ng-include="'templates/navbar-header.html'"></div>
+<section class="container register">
+    <div class="well bs-component col-lg-10 col-lg-offset-1 form">
+        <form class="form-horizontal">
+            <fieldset>
+                <legend>Edit Profile</legend>
+                <div class="edit-profile-left">
+                    <div class="edit-profile-info">
+                        <div class="form-group ">
+                            <label for="name" class="col-lg-2 control-label">Name:</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="name" placeholder="Name"
+                                       ng-model="user.name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-2 control-label">Email:</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputEmail" placeholder="Email"
+                                       ng-model="user.email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Radios</label>
+
+                            <div class="col-lg-10">
+                                <div class="radio">
+                                    <label class="radio-option">
+                                        <input type="radio" name="gender" id="gender-male" class="radio-input"
+                                               value="male"
+                                               ng-model="user.gender">
+                                        Male
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="gender" id="gender-female" class="radio-input"
+                                               value="female"
+                                               ng-model="user.gender">
+                                        Female
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="gender" id="gender-other" class="radio-input"
+                                               value="other"
+                                               ng-model="user.gender">
+                                        Other
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload-cover-image">
+                        <section id="upload-cover-image-preview-section">
+                            <img class="upload-cover-image-preview image-preview"
+                                 src="http://www.hdnicewallpapers.com/FacebookCover/City_Sky_Line_Facebook_Cover_Photo.jpg"
+                                 alt="Cover Image"/>
+                        </section>
+                    <span class="btn btn-default btn-file">
+                        Browse <input type="file" class="input-type-file">
+                    </span>
+                    </div>
+                </div>
+                <div class="upload-profile-image">
+                    <section id="upload-profile-image-preview-section">
+                        <img class="upload-profile-image-preview image-preview"
+                             src="https://scontent-vie1-1.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/1463371_699753350049100_1028626664_n.jpg?oh=9792be6970d9df02b39519b111491765&oe=55C73C49"
+                             alt="Profile Image"/>
+                    </section>
+                    <span class="btn btn-default btn-file">
+                        Browse <input type="file" class="input-type-file">
+                    </span>
+                </div>
+                <div class="form-group buttons">
+                    <div class="col-lg-10 col-lg-offset-5">
+                        <a href="#/" class="btn btn-default">Cancel</a>
+                        <button ng-click="editProfile(user)" type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>

@@ -1,4 +1,4 @@
-<header class="navbar navbar-inverse navbar-fixed-top">
+<header class="navbar navbar-inverse navbar-fixed-top" ng-controller="AuthenticationController">
     <div class="container">
         <nav class="collapse navbar-collapse bs-navbar-collapse">
             <ul class="nav navbar-nav">
@@ -28,11 +28,11 @@
                         Settings <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#/user/edit-profile" class="edit-profile nav-icon">Edit Profile</a></li>
-                        <li><a href="#/user/change-password" class="change-password nav-icon">Change Password</a></li>
+                        <li><a href="#/profile/edit-profile" class="edit-profile nav-icon">Edit Profile</a></li>
+                        <li><a href="#/profile/password" class="change-password nav-icon">Change Password</a></li>
                     </ul>
                 </li>
-                <li><a href="#/logout">Logout</a></li>
+                <li><a href="#/logout" ng-click="logout()">Logout</a></li>
             </ul>
         </nav>
     </div>

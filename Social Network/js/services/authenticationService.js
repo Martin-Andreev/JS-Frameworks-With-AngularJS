@@ -1,14 +1,24 @@
 'use strict';
 
-app.factory('authenticationService', function ($http, baseServiceUrl) {
+app.factory('authenticationService', function ($http, baseServiceUrl, $localStorage) {
     var service = {};
 
     service.setCredentials = function (serverData) {
-        sessionStorage['currentUser'] = JSON.stringify(serverData);
+        $localStorage.currentUser = serverData;
+    };
+
+    service.clearCredentials = function () {
+        $localStorage.$reset();
     };
 
     service.isLoggedIn = function() {
-        return sessionStorage['currentUser'] != undefined;
+        return $localStorage.currentUser != undefined;
+    };
+
+    service.getHeaders = function() {
+        return {
+            Authorization: "Bearer " + $localStorage.currentUser.access_token
+        };
     };
 
     service.login = function (userData, success, error) {
@@ -25,24 +35,25 @@ app.factory('authenticationService', function ($http, baseServiceUrl) {
             }).error(error);
     };
 
+    service.logout = function (success, error) {
+        $http({
+            method: 'POST',
+            url: baseServiceUrl + '/users/logout',
+            headers: this.getHeaders()
+        }).success(function (data) {
+            success(data)
+        }).error(error);
+    };
+
+    service.editProfile = function (userData, success, error) {
+        $http({
+            method: 'POST',
+            url: baseServiceUrl + '/users/logout',
+            headers: this.getHeaders()
+        }).success(function (data) {
+            success(data)
+        }).error(error);
+    };
+
     return service;
 });
-
-
-//var key = 'user';
-//
-//function saveUserData(data){
-//    //localStorageServiceProvider.set(key, data);
-//    localstorage.setItem(key, data);
-//}
-//
-//function getUserData(){
-//    //localStorageServiceProvider.get(key);
-//    localStorage.getItem(key);
-//}
-//
-//return{
-//    saveUser: saveUserData,
-//    getUser: getUserData,
-//    login: login
-//}

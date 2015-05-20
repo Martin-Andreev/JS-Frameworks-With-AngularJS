@@ -103,6 +103,83 @@
     opacity: 1;
 }
 
+.upload-cover-image{
+    text-align: center;
+    margin-bottom: 6%;
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1% !important;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    max-width: 100%;
+    max-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: pointer;
+    display: block;
+}
+
+#upload-cover-image-preview-section {
+    margin: 1% auto;
+}
+
+.upload-cover-image-preview {
+    width: 100%;
+    margin-bottom: 3%;
+}
+
+.upload-profile-image{
+    width: 40.5%;
+    margin-left: 3%;
+    text-align: center;
+    display: inline-block;
+}
+
+.upload-profile-image-preview{
+    max-width: 80%;
+    margin-bottom: 5%;
+}
+
+.edit-profile-info{
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+}
+
+.form{
+    margin-bottom: 7% !important;
+    display: inline-block !important;
+    vertical-align: top;
+}
+
+.edit-profile-left{
+    width: 53%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 2%;
+}
+
+.image-preview{
+    border: 2px solid #222222;
+}
+
+.buttons{
+    margin-top: 2%;
+}
+
 @media (min-width: 1366px) {
     .container{
         max-width: 1024px;
