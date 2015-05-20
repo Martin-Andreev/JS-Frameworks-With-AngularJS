@@ -7,6 +7,10 @@ app.factory('authenticationService', function ($http, baseServiceUrl) {
         sessionStorage['currentUser'] = JSON.stringify(serverData);
     };
 
+    service.isLoggedIn = function() {
+        return sessionStorage['currentUser'] != undefined;
+    };
+
     service.login = function (userData, success, error) {
         $http.post(baseServiceUrl + '/users/login', userData)
             .success(function (data) {

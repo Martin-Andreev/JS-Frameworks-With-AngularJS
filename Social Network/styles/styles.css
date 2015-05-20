@@ -21,7 +21,7 @@
     width: 100%;
     background-color: #222;
     color: #fff;
-    height: 50px;
+    height: 40px;
     margin-top: -.8%;
     text-align: center;
 }
@@ -39,8 +39,72 @@
     margin-top: 8%;
 }
 
+.change-password:before{
+    content: url('../resourses/images/change-password.png');
+}
+
+.edit-profile:before{
+    content: url('../resourses/images/edit-profile.png');
+}
+
+.nav-icon:before{
+    vertical-align: sub;
+    margin-right: 3%;
+}
+
+.nav-controller{
+    width: 65%;
+}
+
+.search-box{
+    width: 58%;
+    height: 50px !important;
+}
+
+.search-input-box{
+    width: 85%;
+}
+
+.search-input{
+    width: 100% !important;
+    height: 30px !important;
+}
+
+.search-form{
+    width: 100% !important;
+}
+
+.search-icon{
+    vertical-align: super;
+}
+
+.search-btn{
+    height: 30px;
+}
+
+.news-feed{
+    background: url("../resourses/images/news-feed.png") no-repeat;
+}
+
+.friend-request{
+    background: url("../resourses/images/friend-request.png") no-repeat;
+}
+
+.icon{
+    background-size: 80%;
+    background-position: center;
+    height: 50px;
+    transition: all .1s ease-in-out;
+    opacity: 0.6;
+}
+
+.icon:hover{
+    background-size: 90%;
+    opacity: 1;
+}
+
 @media (min-width: 1366px) {
     .container{
-        max-width: 970px;
+        max-width: 1024px;
     }
 }

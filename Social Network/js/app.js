@@ -8,15 +8,15 @@ app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'templates/home.html',
-            controller: 'homeController'
+            controller: 'MainController'
         })
         .when('/login', {
             templateUrl: 'templates/login.html',
-            controller: 'authenticationController'
+            controller: 'AuthenticationController'
         })
         .when('/register', {
             templateUrl: 'templates/register.html',
-            controller: 'authenticationController'
+            controller: 'AuthenticationController'
         })
         .otherwise({
             redirectTo: '/'

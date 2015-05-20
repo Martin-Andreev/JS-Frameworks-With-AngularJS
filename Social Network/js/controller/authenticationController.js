@@ -1,4 +1,4 @@
-app.controller('authenticationController',
+app.controller('AuthenticationController',
     function ($scope, $location, $rootScope, authenticationService, notifyService) {
         $scope.login = function () {
             $scope.login = function (userData) {
