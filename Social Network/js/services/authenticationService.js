@@ -21,6 +21,14 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
         };
     };
 
+    service.getCurrentUserData = function () {
+        return $http({
+            method: 'GET',
+            url: baseServiceUrl + '/me',
+            headers: this.getHeaders()
+        })
+    };
+
     service.login = function (userData, success, error) {
         $http.post(baseServiceUrl + '/users/login', userData)
             .success(function (data) {
@@ -56,12 +64,15 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
         }).error(error);
     };
 
-    service.getCurrentUserData = function () {
-        return $http({
-            method: 'GET',
-            url: baseServiceUrl + '/me',
+    service.changePassword = function (userData, success, error) {
+        $http({
+            method: 'PUT',
+            url: baseServiceUrl + '/me/changepassword',
+            data: userData,
             headers: this.getHeaders()
-        })
+        }).success(function (data) {
+            success(data)
+        }).error(error)
     };
 
     return service;

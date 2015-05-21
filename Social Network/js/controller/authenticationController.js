@@ -6,7 +6,6 @@ app.controller('AuthenticationController',
                 function (userData) {
                     $scope.userData = userData.data;
                     checkForEmptyImages($scope.userData);
-                    console.log($scope);
                 },
                 function (error) {
                     notifyService.showError('Unable to get current user data', error)
@@ -86,7 +85,7 @@ app.controller('AuthenticationController',
 
             authenticationService.editProfile(
                 data,
-                function success(serverData) {
+                function success() {
                     notifyService.showInfo('Your profile has been successfully edited');
                     $location.path('#/');
                 },
@@ -95,4 +94,17 @@ app.controller('AuthenticationController',
                 }
             );
         };
+
+        $scope.changePassword = function (userData) {
+            authenticationService.changePassword(
+                userData,
+                function success() {
+                    notifyService.showInfo('Your password has been successfully changed');
+                    $location.path('#/');
+                },
+                function error(err) {
+                    notifyService.showError('Unable to change password', err);
+                }
+            )
+        }
     });
