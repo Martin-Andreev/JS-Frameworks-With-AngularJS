@@ -11,11 +11,11 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
         $localStorage.$reset();
     };
 
-    service.isLoggedIn = function() {
+    service.isLoggedIn = function () {
         return $localStorage.currentUser != undefined;
     };
 
-    service.getHeaders = function() {
+    service.getHeaders = function () {
         return {
             Authorization: "Bearer " + $localStorage.currentUser.access_token
         };
@@ -47,12 +47,21 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
 
     service.editProfile = function (userData, success, error) {
         $http({
-            method: 'POST',
-            url: baseServiceUrl + '/users/logout',
+            method: 'PUT',
+            url: baseServiceUrl + '/me',
+            data: userData,
             headers: this.getHeaders()
         }).success(function (data) {
             success(data)
         }).error(error);
+    };
+
+    service.getCurrentUserData = function () {
+        return $http({
+            method: 'GET',
+            url: baseServiceUrl + '/me',
+            headers: this.getHeaders()
+        })
     };
 
     return service;

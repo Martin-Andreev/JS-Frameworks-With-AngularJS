@@ -7,31 +7,31 @@
                 <div class="form-group">
                     <label for="username" class="col-lg-2 control-label">Username:</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="username" placeholder="Username" ng-model="user.username">
+                        <input type="text" class="form-control" id="username" placeholder="Username" ng-model="userData.username">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword" class="col-lg-2 control-label">Password:</label>
                     <div class="col-lg-10">
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="user.password">
+                        <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="userData.password">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="confirmPassword" class="col-lg-2 control-label">Confirm Password:</label>
                     <div class="col-lg-10">
-                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" ng-model="user.confirmPassword">
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" ng-model="userData.confirmPassword">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="name" class="col-lg-2 control-label">Name:</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="name" placeholder="Name" ng-model="user.name">
+                        <input type="text" class="form-control" id="name" placeholder="Name" ng-model="userData.name">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail" class="col-lg-2 control-label">Email:</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputEmail" placeholder="Email" ng-model="user.email">
+                        <input type="text" class="form-control" id="inputEmail" placeholder="Email" ng-model="userData.email">
                     </div>
                 </div>
                 <div class="form-group">
@@ -39,15 +39,15 @@
                     <div class="col-lg-10">
                         <div class="radio">
                             <label class="radio-option">
-                                <input type="radio" name="gender" id="gender-male" value="male" checked="" ng-model="user.gender">
+                                <input type="radio" name="gender" id="gender-male" value="male" checked="" ng-model="userData.gender">
                                 Male
                             </label>
                             <label class="radio-option">
-                                <input type="radio" name="gender" id="gender-female" value="female" ng-model="user.gender">
+                                <input type="radio" name="gender" id="gender-female" value="female" ng-model="userData.gender">
                                 Female
                             </label>
                             <label class="radio-option">
-                                <input type="radio" name="gender" id="gender-other" value="other" ng-model="user.gender">
+                                <input type="radio" name="gender" id="gender-other" value="other" ng-model="userData.gender">
                                 Other
                             </label>
                         </div>
@@ -56,7 +56,7 @@
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-4">
                         <a href="#/" class="btn btn-default">Cancel</a>
-                        <button ng-click="register(user)" type="submit" class="btn btn-primary">Register</button>
+                        <button ng-click="register(userData)" type="submit" class="btn btn-primary">Register</button>
                     </div>
                 </div>
             </fieldset>
