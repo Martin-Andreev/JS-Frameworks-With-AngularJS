@@ -1,0 +1,11 @@
+<div ng-include="'templates/navbar-header.html'"></div>
+<section id="userWall" class="col-lg-8 col-lg-offset-2" ng-controller="FriendsController">
+    <header id="userWallHeader" ng-init="getUserFullData()">
+        <div id="userCoverImageSection">
+            <img ng-src="{{userFullData.coverImageData}}" class="userCoverImage" alt=""/>
+        </div>
+        <div id="userProfileImageSection">
+            <img ng-src="{{userFullData.profileImageData}}" class="userProfileImage" alt=""/>
+        </div>
+    </header>
+</section>

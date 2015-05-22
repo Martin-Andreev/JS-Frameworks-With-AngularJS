@@ -30,8 +30,8 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'templates/change-password.html',
             controller: 'MainController'
         })
-        .when('/users/:id', {
-            templateUrl: 'templates/change-password.html',
+        .when('/users/:username/', {
+            templateUrl: 'templates/user-wall.html',
             controller: 'MainController'
         })
         .otherwise({

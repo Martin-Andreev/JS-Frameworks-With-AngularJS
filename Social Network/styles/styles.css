@@ -258,6 +258,41 @@ a{
     text-align: center !important;
 }
 
+/*User Wall*/
+
+#userWall{
+    margin-top: 3%;
+}
+
+#userProfileImageSection{
+    position: absolute !important;
+    width: 120px !important;
+    height: 100px !important;
+    display: inline-block;
+    top: 200px;
+    left: 100px;
+}
+
+.userProfileImage{
+    width: 100%;
+}
+
+#userWallHeader{
+    width: 100%;
+}
+
+#userCoverImageSection{
+    width: 100%;
+    position: absolute;
+    height: 320px;
+    text-align: center;
+}
+
+.userCoverImage{
+    max-width: 100% !important;
+    max-height: 100%;
+}
+
 @media (min-width: 1366px) {
     .container{
         max-width: 1024px;

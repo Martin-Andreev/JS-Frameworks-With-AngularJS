@@ -1,5 +1,5 @@
 app.controller('AuthenticationController',
-    function ($scope, $location, $rootScope, authenticationService, notifyService, $localStorage) {
+    function ($scope, $location, $rootScope, authenticationService, notifyService) {
         if ($scope.isLogged) {
             $scope.userData = {};
             authenticationService.getCurrentUserData().then(
@@ -8,7 +8,7 @@ app.controller('AuthenticationController',
                     checkForEmptyImages($scope.userData);
                 },
                 function (error) {
-                    notifyService.showError('Unable to get current user data', error)
+                    notifyService.showError('Unable to get current user data', error.data)
                 }
             );
         }
@@ -28,42 +28,40 @@ app.controller('AuthenticationController',
         }
 
         $scope.login = function (userData) {
-            authenticationService.login(
-                userData,
+            authenticationService.login(userData).then(
                 function success(serverData) {
                     notifyService.showInfo("Successfully logged in");
-                    authenticationService.setCredentials(serverData);
+                    authenticationService.setCredentials(serverData.data);
                     $location.path("/");
                 },
-                function error(err) {
-                    notifyService.showError('Unsuccessful login', err);
+                function error(error) {
+                    notifyService.showError('Unsuccessful login', error.data);
                 }
             );
         };
 
         $scope.register = function (userData) {
-            authenticationService.register(
-                userData,
+            authenticationService.register(userData).then(
                 function success(serverData) {
                     notifyService.showInfo('Successfully registered');
-                    authenticationService.setCredentials(serverData);
+                    authenticationService.setCredentials(serverData.data);
                     $location.path("/");
                 },
-                function error(err) {
-                    notifyService.showError("Unable to register", err);
+                function error(error) {
+                    notifyService.showError("Unable to register", error.data);
                 }
             );
         };
 
         $scope.logout = function () {
-            authenticationService.logout(
+            authenticationService.logout().then(
                 function success(serverData) {
                     notifyService.showInfo('Successfully logged out');
                     $location.path('#/');
-                    authenticationService.clearCredentials(serverData);
+                    authenticationService.clearCredentials(serverData.data);
                 },
-                function error(err) {
-                    notifyService.showError("Unable to logout", err);
+                function error(error) {
+                    notifyService.showError("Unable to logout", error.data);
                 }
             );
         };
@@ -84,27 +82,25 @@ app.controller('AuthenticationController',
                 data.coverImageData = userData.coverImageData;
             }
 
-            authenticationService.editProfile(
-                data,
+            authenticationService.editProfile(data).then(
                 function success() {
                     notifyService.showInfo('Your profile has been successfully edited');
                     $location.path('#/');
                 },
-                function error(err) {
-                    notifyService.showError("Unable to edit your profile", err);
+                function error(error) {
+                    notifyService.showError("Unable to edit your profile", error.data);
                 }
             );
         };
 
         $scope.changePassword = function (userData) {
-            authenticationService.changePassword(
-                userData,
+            authenticationService.changePassword(userData).then(
                 function success() {
                     notifyService.showInfo('Your password has been successfully changed');
                     $location.path('#/');
                 },
-                function error(err) {
-                    notifyService.showError('Unable to change password', err);
+                function error(error) {
+                    notifyService.showError('Unable to change password', error.data);
                 }
             )
         }

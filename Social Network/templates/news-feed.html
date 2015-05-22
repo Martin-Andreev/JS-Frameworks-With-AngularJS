@@ -2,13 +2,13 @@
     <div class="friendsBox well bs-component">
         <div class="friendsCount">
             <a class="friendsCountLink" href="">
-                <p class="friendsTitle">Friends - </p> <span
-                    class="friendsTotalCount">{{ownFriendsPreview.totalCount}}</span>
+                <p class="friendsTitle">Friends - </p>
+                <span class="friendsTotalCount">{{ownFriendsPreview.totalCount}}</span>
             </a>
         </div>
         <ul id="friendsBoxList">
             <li class="friendBoxPreviewElement" ng-repeat="friend in ownFriendsPreview.friends">
-                <a class="friendsBoxPreview" href="#/">
+                <a href="#/users/{{friend.username}}/" class="friendsBoxPreview" >
                     <img class="friendBoxPreviewImage" ng-src="{{friend.profileImageData}}"/>
                     <div class="friendName">{{friend.name}}</div>
                 </a>

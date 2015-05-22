@@ -29,50 +29,46 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
         })
     };
 
-    service.login = function (userData, success, error) {
-        $http.post(baseServiceUrl + '/users/login', userData)
-            .success(function (data) {
-                success(data);
-            }).error(error);
+    service.login = function (userData) {
+        return $http({
+            method: 'POST',
+            url: baseServiceUrl + '/users/login',
+            data: userData
+        })
     };
 
-    service.register = function (userData, success, error) {
-        $http.post(baseServiceUrl + '/users/register', userData)
-            .success(function (data) {
-                success(data);
-            }).error(error);
+    service.register = function (userData) {
+        return $http({
+            method: 'POST',
+            url: baseServiceUrl + '/users/register',
+            data: userData
+        })
     };
 
-    service.logout = function (success, error) {
-        $http({
+    service.logout = function () {
+        return $http({
             method: 'POST',
             url: baseServiceUrl + '/users/logout',
             headers: this.getHeaders()
-        }).success(function (data) {
-            success(data)
-        }).error(error);
+        });
     };
 
-    service.editProfile = function (userData, success, error) {
-        $http({
+    service.editProfile = function (userData) {
+        return $http({
             method: 'PUT',
             url: baseServiceUrl + '/me',
             data: userData,
             headers: this.getHeaders()
-        }).success(function (data) {
-            success(data)
-        }).error(error);
+        });
     };
 
-    service.changePassword = function (userData, success, error) {
-        $http({
+    service.changePassword = function (userData) {
+        return $http({
             method: 'PUT',
             url: baseServiceUrl + '/me/changepassword',
             data: userData,
             headers: this.getHeaders()
-        }).success(function (data) {
-            success(data)
-        }).error(error)
+        });
     };
 
     return service;
