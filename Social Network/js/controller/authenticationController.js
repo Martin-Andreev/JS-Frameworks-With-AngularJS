@@ -47,6 +47,7 @@ app.controller('AuthenticationController',
                 function success(serverData) {
                     notifyService.showInfo('Successfully registered');
                     authenticationService.setCredentials(serverData);
+                    $location.path("/");
                 },
                 function error(err) {
                     notifyService.showError("Unable to register", err);

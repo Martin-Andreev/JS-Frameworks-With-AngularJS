@@ -3,4 +3,5 @@
     <section ng-if="!isLogged" id="home-background-image-section">
         <img class="home-background-image" src="http://i.huffpost.com/gen/1411271/images/o-HAPPY-YOUNG-PEOPLE-facebook.jpg" alt=""/>
     </section>
+    <section ng-if="isLogged" id="news-feed" ng-include="'templates/news-feed.html'"></section>
 </main>

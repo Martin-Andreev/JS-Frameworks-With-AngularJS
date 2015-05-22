@@ -1,6 +1,9 @@
 #wrapper{
-   position: fixed;
-    bottom: 0;
+    margin-top: 5%;
+}
+
+a{
+    text-decoration: none !important;
 }
 
 .container{
@@ -59,6 +62,7 @@
 .search-box{
     width: 58%;
     height: 50px !important;
+    margin-left: 15%;
 }
 
 .search-input-box{
@@ -161,6 +165,97 @@
 
 .buttons{
     margin-top: 2%;
+}
+
+.header-profile-image{
+    max-width: 5.5% !important;
+    display: inline-block;
+    border-radius: 100px;
+}
+
+.header-data{
+    display: inline-block !important;
+}
+
+.header-data > a {
+    display: inline-block !important;
+}
+
+.friendBoxPreviewElement{
+    display: inline-block;
+    width: 90px;
+    height: 90px;
+    max-width: 90px;
+    max-height: 90px;
+    position: relative;
+}
+
+#friendsBoxList{
+    padding: 0 !important;
+    margin-bottom: 0;
+}
+
+.friendBoxPreviewImage{
+    width: 100% !important;
+}
+
+.friendBoxPreviewElement{
+    border: 1px solid #000000;
+    border-top: 0;
+}
+
+.friendBoxPreviewElement:nth-of-type(-n+3){
+    border-top: 1px solid #000000;
+}
+
+.friendsBox{
+    width: 23% !important;
+    float: right !important;
+    right: 5% !important;
+    position: relative;
+}
+
+.friendsTitle{
+    font-weight: bold;
+    display: inline-block;
+    color: #3a3a3a !important;
+    text-decoration: none !important;
+}
+
+.friendsCount{
+    text-align: center;
+}
+
+.friendsCountLink:hover{
+    color: #000000 !important;
+}
+
+.friendsTotalCount{
+    color: #000000 !important;
+}
+
+.friendName{
+    position: absolute;
+    bottom: 0;
+    color: #dadada;
+    text-align:center;
+    font-weight:bold;
+    opacity: 0.5;
+    transition: all .1s ease-in-out;
+    font-size: .85em;
+    word-wrap: break-word;
+    width: 90px;
+    margin:0 auto;
+}
+
+.friendName:hover{
+    opacity: 1;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.42);
+}
+
+.friendsBoxPreview{
+    text-align: center !important;
 }
 
 @media (min-width: 1366px) {

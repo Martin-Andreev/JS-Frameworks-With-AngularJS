@@ -1,0 +1,18 @@
+<aside class="clearfix" id="friends-section" ng-controller="FriendsController" ng-init="getOwnFriendsPreview()">
+    <div class="friendsBox well bs-component">
+        <div class="friendsCount">
+            <a class="friendsCountLink" href="">
+                <p class="friendsTitle">Friends - </p> <span
+                    class="friendsTotalCount">{{ownFriendsPreview.totalCount}}</span>
+            </a>
+        </div>
+        <ul id="friendsBoxList">
+            <li class="friendBoxPreviewElement" ng-repeat="friend in ownFriendsPreview.friends">
+                <a class="friendsBoxPreview" href="#/">
+                    <img class="friendBoxPreviewImage" ng-src="{{friend.profileImageData}}"/>
+                    <div class="friendName">{{friend.name}}</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>

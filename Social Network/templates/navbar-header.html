@@ -9,6 +9,12 @@
                 <li><a href="#/login">Login</a></li>
             </ul>
             <ul ng-if="isLogged"  class="nav navbar-nav nav-controller">
+                <li class="header-data">
+                    <a href="#/users/{{userData.userName}}/">
+                        <!--<img class="header-profile-image" ng-src="{{userData.profileImageData}}" alt=""/>-->
+                        <span>{{userData.username}}</span>
+                    </a>
+                </li>
                 <li><a href="#/" class="news-feed icon"></a></li>
                 <li><a href="#/friend-request" class="friend-request icon"></a></li>
                 <li class="search-box">
