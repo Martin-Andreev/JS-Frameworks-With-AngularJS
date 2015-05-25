@@ -1,30 +1,14 @@
 app.controller('AuthenticationController',
     function ($scope, $location, $rootScope, authenticationService, notifyService) {
         if ($scope.isLogged) {
-            $scope.userData = {};
             authenticationService.getCurrentUserData().then(
                 function (userData) {
-                    $scope.userData = userData.data;
-                    checkForEmptyImages($scope.userData);
+                    $scope.userData = $scope.checkForEmptyImages(userData.data);
                 },
                 function (error) {
                     notifyService.showError('Unable to get current user data', error.data)
                 }
             );
-        }
-
-        function checkForEmptyImages(userData) {
-            if (userData.coverImageData == null) {
-                userData.coverImageData = 'http://mondomedia.com/application/views/channel/templates/default/_/images/default-background-cover.jpg';
-            }
-
-            if (userData.profileImageData == null) {
-                if (userData.gender == 1) {
-                    userData.profileImageData = "http://www.warwickagency.com/wp-content/uploads/2010/07/default_female_avatar.jpg";
-                } else {
-                    userData.profileImageData = "http://entekhabuni.ir/fa/wp-content/uploads/2013/10/default.png";
-                }
-            }
         }
 
         $scope.login = function (userData) {

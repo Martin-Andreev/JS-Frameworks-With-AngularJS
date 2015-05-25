@@ -1,11 +1,140 @@
 <div ng-include="'templates/navbar-header.html'"></div>
-<section id="userWall" class="col-lg-8 col-lg-offset-2" ng-controller="FriendsController">
-    <header id="userWallHeader" ng-init="getUserFullData()">
+<section id="userWall" class="col-lg-8 col-lg-offset-2" ng-controller="FriendController">
+    <header id="userWallHeader" class="clearfix" ng-init="getUserFullData()">
         <div id="userCoverImageSection">
-            <img ng-src="{{userFullData.coverImageData}}" class="userCoverImage" alt=""/>
+            <img ng-if="userFullData.coverImageData" ng-src="{{userFullData.coverImageData}}" class="userCoverImage"/>
         </div>
         <div id="userProfileImageSection">
-            <img ng-src="{{userFullData.profileImageData}}" class="userProfileImage" alt=""/>
+            <img ng-src="{{userFullData.profileImageData}}" class="userProfileImage"/>
+        </div>
+        <div id="userNameSection">
+            <p class="userName name">{{userFullData.name}}</p>
+            <p class="userUsername name">({{userFullData.username}})</p>
+        </div>
+        <div id="isFriendSection">
+            <button class="friendRequestButton" ng-if="!userFullData.isFriend">Send Friend Request</button>
+            <div class="friendRequestButton friendButton" ng-if="userFullData.isFriend">Friend</div>
         </div>
     </header>
+    <div class="userWallMain col-lg-12" ng-controller="PostController">
+        <div class="post-container form-horizontal col-lg-7" id="post-container">
+            <form class="post-form">
+                <fieldset>
+                    <div class="form-group">
+                        <textarea class="form-control postTextarea"
+                                  id="post-content"
+                                  ng-model="post"
+                                  placeholder="Any cool story you wanna share?"></textarea>
+                    </div>
+                    <div class="form-group userWallPostButton">
+                        <button type="button" class="submitButton btn btn-primary" id="submit-post-btn">Post</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <aside class="clearfix" id="friends-section">
+            <div class="friendFriendsBox well bs-component">
+                <div class="friendsCount">
+                    <a class="friendsCountLink" href="">
+                        <p class="friendsTitle">Friends - </p>
+                        <span class="friendsTotalCount">{{friendFriendsPreview.totalCount}}</span>
+                    </a>
+                </div>
+                <ul class="friendsBoxList">
+                    <li class="friendBoxPreviewElement" ng-repeat="friend in friendFriendsPreview.friends">
+                        <a href="#/users/{{friend.username}}/" class="friendsBoxPreview">
+                            <img class="friendBoxPreviewImage" ng-src="{{friend.profileImageData}}"/>
+                            <div class="friendName">{{friend.name}}</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <section class="col-lg-7 userPagePostsSection">
+            <header class="well wallPostHeader" ng-controller="FriendController">
+                <div ng-if="wallPosts.length" class="wallPostHeaderText">{{userFullData.name}} wall posts</div>
+                <div ng-if="!wallPosts.length" class="wallPostHeaderText">No posts on {{userFullData.name}}'s wall</div>
+            </header>
+            <section id="posts" ng-repeat="post in wallPosts">
+                <article class="post well">
+                    <header class="post-header">
+                        <div class="post-image">
+                            <a href="#/users/{{post.author.username}}">
+                                <img class="mini-thumbnail" ng-src="{{post.author.profileImageData}}"/>
+                            </a>
+                        </div>
+                        <div class="post-info">
+                            <div class="postUserInfo">
+                                <a href="#/users/{{post.author.username}}" class="profile-link">{{post.author.name}}</a>
+                                <span>made a post</span>
+                            </div>
+                            <div class="dateTime">
+                                <span>on</span>
+                                <time>{{post.date | date:"EEEE, MMMM d, y 'at' h:mm a"}}</time>
+                            </div>
+                        </div>
+                    </header>
+                    <section class="post-content">
+                        <p>{{post.postContent}}</p>
+                    </section>
+                    <section class="postInfoBox clearfix">
+                        <div class="likes pull-left">
+                            <a class="btn likeButton" ng-if="!post.liked" >Like</a>
+                            <a class="btn likeButton" ng-if="post.liked" >Unlike</a>
+                            <!--ng-click="likePost(post.id)">-->
+                        </div>
+                        <div class="comments pull-right">
+                            <img class="postIcon" src="resourses/images/comment-icon.png" alt=""/>
+                            <span class="queryResult">{{post.totalCommentsCount}}</span>
+                        </div>
+                        <div class="likes pull-right">
+                            <img ng-if="!post.liked" class="postIcon clickableIcon" src="resourses/images/like-button.png"/>
+                            <img ng-if="post.liked" class="postIcon clickableIcon" src="resourses/images/unlike-button.png"/>
+                            <span class="queryResult">{{post.likesCount}}</span>
+                        </div>
+                    </section>
+                    <section class="commentsSection clearfix">
+                        <header class="userComment clearfix" ng-controller="AuthenticationController">
+                            <div class="userCommentText col-lg-12" data-ph="Write a comment..." contentEditable></div>
+                            <div class="commentAuthorSection clearfix pull-left">
+                                <img class="commentAuthorImage" ng-src="{{userData.profileImageData}}"/>
+                                <div class="commentAuthorText">as <span class="commentAuthorName">{{userData.name}}</span></div>
+                            </div>
+                            <button class="submitButton commentButton clearfix pull-right">Comment</button>
+                        </header>
+                        <section ng-if="post.comments.length" class="postCommentsSection col-lg-11 col-lg-offset-1">
+                            <section class="postComments clearfix" ng-repeat="comment in post.comments">
+                                <div class="postComment">
+                                    <div class="post-image">
+                                        <a href="#/users/{{comment.author.username}}">
+                                            <img class="comment-mini-thumbnail" ng-src="{{comment.author.profileImageData}}"/>
+                                        </a>
+                                    </div>
+                                    <div class="comment-info post-info">
+                                        <div class="postUserInfo">
+                                            <a href="#/users/{{comment.author.username}}" class="profile-link">{{comment.author.name}}</a>
+                                        </div>
+                                        <div class="dateTime commentTime">
+                                            <span>on</span>
+                                            <time>{{comment.date | date:"EEEE, MMMM d, y 'at' h:mm a"}}</time>
+                                        </div>
+                                    </div>
+                                </div>
+                                <section class="comment-content post-content col-lg-9">
+                                    <p>{{comment.commentContent}}</p>
+                                </section>
+                                <aside class="likes commentLike pull-left">
+                                    <img ng-if="!comment.liked" class="postIcon clickableIcon" src="resourses/images/like-button.png"/>
+                                    <img ng-if="comment.liked" class="postIcon clickableIcon" src="resourses/images/unlike-button.png"/>
+                                    <span class="queryResult">{{comment.likesCount}}</span>
+                                    <img ng-if="isChangeable(comment.author)" class="postIcon clickableIcon" src="resourses/images/edit-button.png"/>
+                                    <img ng-if="isChangeable(comment.author)" class="postIcon clickableIcon" src="resourses/images/delete-button.png"/>
+                                </aside>
+                            </section>
+                        </section>
+                    </section>
+                </article>
+            </section>
+        </section>
+    </div>
 </section>

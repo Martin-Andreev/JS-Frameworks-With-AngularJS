@@ -1,5 +1,10 @@
+@font-face {
+    font-family: usernameFont;
+    src: url('../resourses/fonts/rafale_bg-webfont.ttf');
+}
+
 #wrapper{
-    margin-top: 5%;
+    margin-top: 3.7%;
 }
 
 a{
@@ -140,6 +145,11 @@ a{
     margin-bottom: 5%;
 }
 
+.maxPictureSize{
+    margin: -3% 0 0;
+    font-size: 1.3em;
+}
+
 .edit-profile-info{
     display: inline-block;
     width: 100%;
@@ -179,118 +189,6 @@ a{
 
 .header-data > a {
     display: inline-block !important;
-}
-
-.friendBoxPreviewElement{
-    display: inline-block;
-    width: 90px;
-    height: 90px;
-    max-width: 90px;
-    max-height: 90px;
-    position: relative;
-}
-
-#friendsBoxList{
-    padding: 0 !important;
-    margin-bottom: 0;
-}
-
-.friendBoxPreviewImage{
-    width: 100% !important;
-}
-
-.friendBoxPreviewElement{
-    border: 1px solid #000000;
-    border-top: 0;
-}
-
-.friendBoxPreviewElement:nth-of-type(-n+3){
-    border-top: 1px solid #000000;
-}
-
-.friendsBox{
-    width: 23% !important;
-    float: right !important;
-    right: 5% !important;
-    position: relative;
-}
-
-.friendsTitle{
-    font-weight: bold;
-    display: inline-block;
-    color: #3a3a3a !important;
-    text-decoration: none !important;
-}
-
-.friendsCount{
-    text-align: center;
-}
-
-.friendsCountLink:hover{
-    color: #000000 !important;
-}
-
-.friendsTotalCount{
-    color: #000000 !important;
-}
-
-.friendName{
-    position: absolute;
-    bottom: 0;
-    color: #dadada;
-    text-align:center;
-    font-weight:bold;
-    opacity: 0.5;
-    transition: all .1s ease-in-out;
-    font-size: .85em;
-    word-wrap: break-word;
-    width: 90px;
-    margin:0 auto;
-}
-
-.friendName:hover{
-    opacity: 1;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.42);
-}
-
-.friendsBoxPreview{
-    text-align: center !important;
-}
-
-/*User Wall*/
-
-#userWall{
-    margin-top: 3%;
-}
-
-#userProfileImageSection{
-    position: absolute !important;
-    width: 120px !important;
-    height: 100px !important;
-    display: inline-block;
-    top: 200px;
-    left: 100px;
-}
-
-.userProfileImage{
-    width: 100%;
-}
-
-#userWallHeader{
-    width: 100%;
-}
-
-#userCoverImageSection{
-    width: 100%;
-    position: absolute;
-    height: 320px;
-    text-align: center;
-}
-
-.userCoverImage{
-    max-width: 100% !important;
-    max-height: 100%;
 }
 
 @media (min-width: 1366px) {

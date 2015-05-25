@@ -1,9 +1,9 @@
 'use strict';
 
-app.factory('friendsService', function ($http, baseServiceUrl, $localStorage, authenticationService) {
-   var service = {};
+app.factory('friendService', function ($http, baseServiceUrl, $localStorage, authenticationService) {
+   var friendService = {};
 
-    service.getOwnFriendsPreview = function () {
+    friendService.getOwnFriendsPreview = function () {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/me/friends/preview',
@@ -11,7 +11,15 @@ app.factory('friendsService', function ($http, baseServiceUrl, $localStorage, au
         })
     };
 
-    service.getUserFullData = function (username) {
+    friendService.getFriendFriendsPreview = function (username) {
+        return $http({
+            method: 'GET',
+            url: baseServiceUrl + '/users/' + username + '/friends/preview',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    friendService.getUserFullData = function (username) {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/users/' + username + '/',
@@ -19,7 +27,7 @@ app.factory('friendsService', function ($http, baseServiceUrl, $localStorage, au
         })
     };
 
-    return service;
+    return friendService;
 });
 
 

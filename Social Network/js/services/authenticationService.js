@@ -1,27 +1,27 @@
 'use strict';
 
 app.factory('authenticationService', function ($http, baseServiceUrl, $localStorage) {
-    var service = {};
+    var authenticationService = {};
 
-    service.setCredentials = function (serverData) {
+    authenticationService.setCredentials = function (serverData) {
         $localStorage.currentUser = serverData;
     };
 
-    service.clearCredentials = function () {
+    authenticationService.clearCredentials = function () {
         $localStorage.$reset();
     };
 
-    service.isLoggedIn = function () {
+    authenticationService.isLoggedIn = function () {
         return $localStorage.currentUser != undefined;
     };
 
-    service.getHeaders = function () {
+    authenticationService.getHeaders = function () {
         return {
             Authorization: "Bearer " + $localStorage.currentUser.access_token
         };
     };
 
-    service.getCurrentUserData = function () {
+    authenticationService.getCurrentUserData = function () {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/me',
@@ -29,7 +29,7 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
         })
     };
 
-    service.login = function (userData) {
+    authenticationService.login = function (userData) {
         return $http({
             method: 'POST',
             url: baseServiceUrl + '/users/login',
@@ -37,7 +37,7 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
         })
     };
 
-    service.register = function (userData) {
+    authenticationService.register = function (userData) {
         return $http({
             method: 'POST',
             url: baseServiceUrl + '/users/register',
@@ -45,7 +45,7 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
         })
     };
 
-    service.logout = function () {
+    authenticationService.logout = function () {
         return $http({
             method: 'POST',
             url: baseServiceUrl + '/users/logout',
@@ -53,7 +53,7 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
         });
     };
 
-    service.editProfile = function (userData) {
+    authenticationService.editProfile = function (userData) {
         return $http({
             method: 'PUT',
             url: baseServiceUrl + '/me',
@@ -62,7 +62,7 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
         });
     };
 
-    service.changePassword = function (userData) {
+    authenticationService.changePassword = function (userData) {
         return $http({
             method: 'PUT',
             url: baseServiceUrl + '/me/changepassword',
@@ -71,5 +71,5 @@ app.factory('authenticationService', function ($http, baseServiceUrl, $localStor
         });
     };
 
-    return service;
+    return authenticationService;
 });
