@@ -24,7 +24,7 @@
         </div>
     </header>
     <div class="userWallMain col-lg-12" ng-controller="PostController">
-        <div class="post-container form-horizontal col-lg-7" id="post-container">
+        <div ng-if="userFullData.isFriend" class="post-container form-horizontal col-lg-7" id="post-container">
             <form class="post-form">
                 <fieldset>
                     <div class="form-group">
@@ -87,11 +87,11 @@
                             </div>
                         </div>
                         <aside class="otpions commentOptions pull-right">
-                            <img ng-if="isChangeable(post.author)"
+                            <img ng-if="isEditable(post.author)"
                                  class="postIcon clickableIcon"
                                  ng-click="post.editing = !post.editing; post.editedPostContent = post.postContent"
                                  src="resourses/images/edit-button.png"/>
-                            <img ng-if="isChangeable(post.author)"
+                            <img ng-if="isDeletable(post.author)"
                                  class="postIcon clickableIcon"
                                  ng-click="deletePost(post.id)"
                                  src="resourses/images/delete-button.png"/>
@@ -165,11 +165,11 @@
                                          class="postIcon clickableIcon"
                                          src="resourses/images/unlike-button.png"/>
                                     <span class="queryResult">{{comment.likesCount}}</span>
-                                    <img ng-if="isChangeable(comment.author)"
+                                    <img ng-if="isEditable(comment.author)"
                                          ng-click="comment.editing = !comment.editing; comment.editedCommentContent = comment.commentContent"
                                          class="postIcon clickableIcon"
                                          src="resourses/images/edit-button.png"/>
-                                    <img ng-if="isChangeable(comment.author)"
+                                    <img ng-if="isDeletable(post.author, comment.author)"
                                          ng-click="deleteComment(comment.id, post.id)"
                                          class="postIcon clickableIcon"
                                          src="resourses/images/delete-button.png"/>

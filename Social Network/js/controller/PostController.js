@@ -131,8 +131,19 @@ app.controller('PostController',
             )
         };
 
-        $scope.isChangeable = function(author) {
+        $scope.isEditable = function(author) {
             return author.username === $localStorage.currentUser.userName;
+        };
+
+        $scope.isDeletable = function(postAuthor, commentAuthor) {
+            if (commentAuthor) {
+                return postAuthor.username === $localStorage.currentUser.userName ||
+                    commentAuthor.username === $localStorage.currentUser.userName;
+            }
+
+            return postAuthor.username === $localStorage.currentUser.userName;
+
+
         };
 
         if ($routeParams.username == undefined) {
