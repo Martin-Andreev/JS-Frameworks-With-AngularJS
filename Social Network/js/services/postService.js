@@ -23,6 +23,17 @@ app.factory('postService', function ($http, baseServiceUrl, $localStorage, authe
         })
     };
 
+    postService.editPost = function (postContent, postId) {
+        return $http({
+            method: 'PUT',
+            url: baseServiceUrl + '/posts/' + postId,
+            headers: authenticationService.getHeaders(),
+            data: {
+                postContent: postContent
+            }
+        })
+    };
+
     postService.deletePost = function (postId) {
         return $http({
             method: 'DELETE',
@@ -35,6 +46,17 @@ app.factory('postService', function ($http, baseServiceUrl, $localStorage, authe
         return $http({
             method: 'POST',
             url: baseServiceUrl + '/posts/' + commentId + '/comments',
+            headers: authenticationService.getHeaders(),
+            data: {
+                commentContent: commentContent
+            }
+        })
+    };
+
+    postService.editComment = function (commentContent, commentId, postId) {
+        return $http({
+            method: 'PUT',
+            url: baseServiceUrl + '/posts/' + postId + '/comments/' + commentId,
             headers: authenticationService.getHeaders(),
             data: {
                 commentContent: commentContent

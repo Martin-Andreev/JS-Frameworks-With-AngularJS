@@ -27,6 +27,18 @@ app.controller('PostController',
             )
         };
 
+        $scope.editPost = function (postContent, postId) {
+            postService.editPost(postContent, postId).then(
+                function () {
+                    getUserWallPage();
+                    notifyService.showInfo('Your post has been successfully edited')
+                },
+                function (error) {
+                    notifyService.showError('Unable to edit post', error.data.message)
+                }
+            )
+        };
+
         $scope.deletePost = function (postId) {
             postService.deletePost(postId).then(
                 function () {
@@ -47,6 +59,18 @@ app.controller('PostController',
                 },
                 function (error) {
                     notifyService.showError('Unable to add new comment', error.data.message)
+                }
+            )
+        };
+
+        $scope.editComment = function (commentContent, commentId, postId) {
+            postService.editComment(commentContent, commentId, postId).then(
+                function () {
+                    getUserWallPage();
+                    notifyService.showInfo('Your comment has been successfully edited')
+                },
+                function (error) {
+                    notifyService.showError('Unable to edit comment', error.data.message)
                 }
             )
         };

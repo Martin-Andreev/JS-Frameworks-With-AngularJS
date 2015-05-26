@@ -9,12 +9,18 @@
         </div>
         <div id="userNameSection">
             <p class="userName name">{{userFullData.name}}</p>
+
             <p class="userUsername name">({{userFullData.username}})</p>
         </div>
         <div id="isFriendSection">
-            <button ng-click="sendFriendRequest()" class="friendRequestButton" ng-if="!userFullData.isFriend && !userFullData.hasPendingRequest">Send Friend Request</button>
-            <div class="friendRequestButton friendButton" ng-if="userFullData.isFriend && !userFullData.hasPendingRequest">Friend</div>
-            <div class="friendRequestButton friendButton" ng-if="userFullData.hasPendingRequest">Friend Request Sent</div>
+            <button ng-click="sendFriendRequest()" class="friendRequestButton"
+                    ng-if="!userFullData.isFriend && !userFullData.hasPendingRequest">Send Friend Request
+            </button>
+            <div class="friendRequestButton friendButton"
+                 ng-if="userFullData.isFriend && !userFullData.hasPendingRequest">Friend
+            </div>
+            <div class="friendRequestButton friendButton" ng-if="userFullData.hasPendingRequest">Friend Request Sent
+            </div>
         </div>
     </header>
     <div class="userWallMain col-lg-12" ng-controller="PostController">
@@ -50,6 +56,7 @@
                     <li class="friendBoxPreviewElement" ng-repeat="friend in friendFriendsPreview.friends">
                         <a href="#/users/{{friend.username}}/" class="friendsBoxPreview">
                             <img class="friendBoxPreviewImage" ng-src="{{friend.profileImageData}}"/>
+
                             <div class="friendName">{{friend.name}}</div>
                         </a>
                     </li>
@@ -82,6 +89,7 @@
                         <aside class="otpions commentOptions pull-right">
                             <img ng-if="isChangeable(post.author)"
                                  class="postIcon clickableIcon"
+                                 ng-click="post.editing = !post.editing"
                                  src="resourses/images/edit-button.png"/>
                             <img ng-if="isChangeable(post.author)"
                                  class="postIcon clickableIcon"
@@ -90,22 +98,28 @@
                         </aside>
                     </header>
                     <section class="post-content">
-                        <p>{{post.postContent}}</p>
-                        <textarea ng-show="show" class="editCommentArea col-lg-12">{{post.postContent}}</textarea>
+                        <div ng-if="post.editing" class="editContentSection clearfix">
+                            <textarea class="editContent col-lg-12" rows="4" ng-model="post.postContent"></textarea>
+
+                            <div class="optionButtons col-lg-5 col-lg-offset-4">
+                                <button class="btn btn-default btnEdit" ng-click="editPost(post.postContent, post.id)">
+                                    Edit
+                                </button>
+                                <a class="btn btn-default btnEdit" ng-click="post.editing = false">Cancel</a>
+                            </div>
+                        </div>
+                        <p ng-show="!post.editing" class="content">{{post.postContent}}</p>
                     </section>
                     <section class="postInfoBox clearfix">
-                        <div class="likes pull-left">
-                            <a class="btn likeButton" ng-if="!post.liked" >Like</a>
-                            <a class="btn likeButton" ng-if="post.liked" >Unlike</a>
-                            <!--ng-click="likePost(post.id)">-->
-                        </div>
                         <div class="comments pull-right">
                             <img class="postIcon" src="resourses/images/comment-icon.png" alt=""/>
                             <span class="queryResult">{{post.totalCommentsCount}}</span>
                         </div>
                         <div class="likes pull-right">
-                            <img ng-click="likePost(post.id)" ng-if="!post.liked" class="postIcon clickableIcon" src="resourses/images/like-button.png"/>
-                            <img ng-click="unlikePost(post.id)" ng-if="post.liked" class="postIcon clickableIcon" src="resourses/images/unlike-button.png"/>
+                            <img ng-click="likePost(post.id)" ng-if="!post.liked" class="postIcon clickableIcon"
+                                 src="resourses/images/like-button.png"/>
+                            <img ng-click="unlikePost(post.id)" ng-if="post.liked" class="postIcon clickableIcon"
+                                 src="resourses/images/unlike-button.png"/>
                             <span class="queryResult">{{post.likesCount}}</span>
                         </div>
                     </section>
@@ -113,18 +127,24 @@
                         <header class="userComment clearfix" ng-controller="AuthenticationController">
                             <!--<div ng-model="commentContent" class="userCommentText col-lg-12" data-ph="Write a comment..." contentEditable></div>-->
                             <input type="text" ng-model="commentContent" class="userCommentText textComment col-lg-12"/>
+
                             <div class="commentAuthorSection clearfix pull-left">
                                 <img class="commentAuthorImage" ng-src="{{userData.profileImageData}}"/>
-                                <div class="commentAuthorText">as <span class="commentAuthorName">{{userData.name}}</span></div>
+
+                                <div class="commentAuthorText">as <span
+                                        class="commentAuthorName">{{userData.name}}</span></div>
                             </div>
-                            <button ng-click="addNewComment(commentContent, post.id)" class="submitButton commentButton clearfix pull-right">Comment</button>
+                            <button ng-click="addNewComment(commentContent, post.id)"
+                                    class="submitButton commentButton clearfix pull-right">Comment
+                            </button>
                         </header>
                         <section ng-if="post.comments.length" class="postCommentsSection col-lg-11 col-lg-offset-1">
                             <section class="postComments clearfix" ng-repeat="comment in post.comments">
                                 <div class="postComment">
                                     <div class="post-image">
                                         <a href="#/users/{{comment.author.username}}">
-                                            <img class="comment-mini-thumbnail" ng-src="{{comment.author.profileImageData}}"/>
+                                            <img class="comment-mini-thumbnail"
+                                                 ng-src="{{comment.author.profileImageData}}"/>
                                         </a>
                                     </div>
                                     <div class="comment-info post-info">
@@ -137,10 +157,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <section class="comment-content post-content col-lg-9">
-                                    <p>{{comment.commentContent}}</p>
-                                </section>
-                                <aside class="otpions commentOptions pull-left">
+                                <aside class="options commentOptions pull-right">
                                     <img ng-if="!comment.liked"
                                          ng-click="likeComment(comment.id, post.id)"
                                          class="postIcon clickableIcon"
@@ -150,12 +167,34 @@
                                          class="postIcon clickableIcon"
                                          src="resourses/images/unlike-button.png"/>
                                     <span class="queryResult">{{comment.likesCount}}</span>
-                                    <img ng-if="isChangeable(comment.author)" class="postIcon clickableIcon" src="resourses/images/edit-button.png"/>
+                                    <img ng-if="isChangeable(comment.author)"
+                                         ng-click="comment.editing = !comment.editing"
+                                         class="postIcon clickableIcon"
+                                         src="resourses/images/edit-button.png"/>
                                     <img ng-if="isChangeable(comment.author)"
                                          ng-click="deleteComment(comment.id, post.id)"
                                          class="postIcon clickableIcon"
                                          src="resourses/images/delete-button.png"/>
                                 </aside>
+                                <section class="post-content">
+                                    <div ng-if="comment.editing" class="editContentSection clearfix">
+                                        <textarea class="editContent editComment col-lg-9"
+                                                  ng-model="comment.commentContent"></textarea>
+
+                                        <div class="optionButtons col-lg-5 col-lg-offset-2">
+                                            <button class="btn btn-default btnEditComment"
+                                                    ng-click="editComment(comment.commentContent, comment.id, post.id)">Edit
+                                            </button>
+                                            <a class="btn btn-default btnEditComment"
+                                               ng-click="comment.editing = false">Cancel
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <p ng-show="!comment.editing" class="content">{{comment.commentContent}}</p>
+                                </section>
+                                <!--<section class="comment-content post-content col-lg-9">-->
+                                    <!--<p>{{comment.commentContent}}</p>-->
+                                <!--</section>-->
                             </section>
                         </section>
                     </section>

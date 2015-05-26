@@ -101,11 +101,12 @@ img.mini-thumbnail {
     margin: 0 0 3px 8px;
 }
 
-.otpions{
+.options{
     display: inline-block !important;
     font-family: usernameFont, sans-serif;
     font-size: 1.1em;
     margin-bottom: 3px;
+    margin-right: 8px;
 }
 
 .likeButton{
@@ -224,4 +225,28 @@ img.mini-thumbnail {
 
 .commentOptions{
     margin-top: 6px;
+}
+
+.editContentSection{
+    margin-bottom: 10px !important;
+}
+
+.editContent{
+    color: #000000 !important;
+    resize: none;
+    background: rgba(218, 218, 218, 0.34);
+}
+
+.editComment{
+    background: rgba(186, 186, 186, 0.63) !important;
+}
+
+.btnEdit{
+    margin: 10px 0;
+}
+
+.btnEditComment{
+    font-size: .9em !important;
+    padding: 1px 15px;
+    margin: 7px 0;
 }
