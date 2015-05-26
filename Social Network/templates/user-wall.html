@@ -89,7 +89,7 @@
                         <aside class="otpions commentOptions pull-right">
                             <img ng-if="isChangeable(post.author)"
                                  class="postIcon clickableIcon"
-                                 ng-click="post.editing = !post.editing"
+                                 ng-click="post.editing = !post.editing; post.editedPostContent = post.postContent"
                                  src="resourses/images/edit-button.png"/>
                             <img ng-if="isChangeable(post.author)"
                                  class="postIcon clickableIcon"
@@ -99,10 +99,10 @@
                     </header>
                     <section class="post-content">
                         <div ng-if="post.editing" class="editContentSection clearfix">
-                            <textarea class="editContent col-lg-12" rows="4" ng-model="post.postContent"></textarea>
+                            <textarea class="editContent col-lg-12" rows="4" ng-model="post.editedPostContent"></textarea>
 
                             <div class="optionButtons col-lg-5 col-lg-offset-4">
-                                <button class="btn btn-default btnEdit" ng-click="editPost(post.postContent, post.id)">
+                                <button class="btn btn-default btnEdit" ng-click="editPost(post.editedPostContent, post.id)">
                                     Edit
                                 </button>
                                 <a class="btn btn-default btnEdit" ng-click="post.editing = false">Cancel</a>
@@ -125,9 +125,7 @@
                     </section>
                     <section class="commentsSection clearfix">
                         <header class="userComment clearfix" ng-controller="AuthenticationController">
-                            <!--<div ng-model="commentContent" class="userCommentText col-lg-12" data-ph="Write a comment..." contentEditable></div>-->
-                            <input type="text" ng-model="commentContent" class="userCommentText textComment col-lg-12"/>
-
+                            <textarea rows="2" class="userCommentText textComment col-lg-12" ng-model="commentContent"></textarea>
                             <div class="commentAuthorSection clearfix pull-left">
                                 <img class="commentAuthorImage" ng-src="{{userData.profileImageData}}"/>
 
@@ -168,7 +166,7 @@
                                          src="resourses/images/unlike-button.png"/>
                                     <span class="queryResult">{{comment.likesCount}}</span>
                                     <img ng-if="isChangeable(comment.author)"
-                                         ng-click="comment.editing = !comment.editing"
+                                         ng-click="comment.editing = !comment.editing; comment.editedCommentContent = comment.commentContent"
                                          class="postIcon clickableIcon"
                                          src="resourses/images/edit-button.png"/>
                                     <img ng-if="isChangeable(comment.author)"
@@ -179,11 +177,11 @@
                                 <section class="post-content">
                                     <div ng-if="comment.editing" class="editContentSection clearfix">
                                         <textarea class="editContent editComment col-lg-9"
-                                                  ng-model="comment.commentContent"></textarea>
+                                                  ng-model="comment.editedCommentContent"></textarea>
 
                                         <div class="optionButtons col-lg-5 col-lg-offset-2">
                                             <button class="btn btn-default btnEditComment"
-                                                    ng-click="editComment(comment.commentContent, comment.id, post.id)">Edit
+                                                    ng-click="editComment(comment.editedCommentContent, comment.id, post.id)">Edit
                                             </button>
                                             <a class="btn btn-default btnEditComment"
                                                ng-click="comment.editing = false">Cancel

@@ -147,6 +147,7 @@ img.mini-thumbnail {
     min-height: 3em !important;
     overflow: auto;
     background-color: #fff;
+    resize: none;
 }
 
 .userCommentText:empty:not(:focus):before{
