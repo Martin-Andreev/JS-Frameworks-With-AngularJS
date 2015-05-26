@@ -27,6 +27,14 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
+    friendService.sendFriendRequest = function (username) {
+        return $http({
+            method: 'POST',
+            url: baseServiceUrl + '/me/requests/' + username + '/',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
     return friendService;
 });
 

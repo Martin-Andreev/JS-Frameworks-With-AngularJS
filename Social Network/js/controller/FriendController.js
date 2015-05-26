@@ -11,6 +11,18 @@ app.controller('FriendController',
             )
         };
 
+        $scope.sendFriendRequest = function () {
+            friendService.sendFriendRequest($routeParams.username).then(
+                function () {
+                    notifyService.showInfo('Friend request has been successfully sent')
+                    $scope.userFullData.hasPendingRequest = true;
+                },
+                function (error) {
+                    notifyService.showError('Unable to send friend request', error.data)
+                }
+            )
+        };
+
         function getOwnFriendsPreview() {
             friendService.getOwnFriendsPreview().then(
                 function (friendsData) {

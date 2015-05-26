@@ -32,14 +32,26 @@
 
 .postTextarea{
     resize: none;
-    height: 50px !important;
+    height: 70px !important;
+    max-width: 100%;
 }
 
 .userPagePostsSection{
     position: absolute !important;
-    top: 115px;
+    top: 145px;
     margin-bottom: 50px;
     padding: 0 !important;
+}
+
+.editCommentArea{
+    margin-bottom: 10px;
+    max-width: 450px;
+    resize: none;
+    padding: 6px 0 0 12px !important;
+}
+
+.textComment{
+    text-overflow: ellipsis !important;
 }
 
 .postUserInfo{
@@ -89,7 +101,7 @@ img.mini-thumbnail {
     margin: 0 0 3px 8px;
 }
 
-.likes{
+.otpions{
     display: inline-block !important;
     font-family: usernameFont, sans-serif;
     font-size: 1.1em;
@@ -210,6 +222,6 @@ img.mini-thumbnail {
     padding: 0 0 0 3px !important;
 }
 
-.commentLike{
+.commentOptions{
     margin-top: 6px;
 }

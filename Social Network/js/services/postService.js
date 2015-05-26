@@ -11,5 +11,76 @@ app.factory('postService', function ($http, baseServiceUrl, $localStorage, authe
         })
     };
 
+    postService.addNewPost = function (postContent, username) {
+        return $http({
+            method: 'POST',
+            url: baseServiceUrl + '/posts/',
+            headers: authenticationService.getHeaders(),
+            data: {
+                username: username,
+                postContent: postContent
+            }
+        })
+    };
+
+    postService.deletePost = function (postId) {
+        return $http({
+            method: 'DELETE',
+            url: baseServiceUrl + '/posts/' + postId,
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    postService.addNewComment = function (commentContent, commentId) {
+        return $http({
+            method: 'POST',
+            url: baseServiceUrl + '/posts/' + commentId + '/comments',
+            headers: authenticationService.getHeaders(),
+            data: {
+                commentContent: commentContent
+            }
+        })
+    };
+
+    postService.deleteComment = function (commentId, postId) {
+        return $http({
+            method: 'DELETE',
+            url: baseServiceUrl + '/posts/' + postId + '/comments/' + commentId,
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    postService.likePost = function (postId) {
+        return $http({
+            method: 'POST',
+            url: baseServiceUrl + '/posts/' + postId + '/likes/',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    postService.unlikePost = function (postId) {
+        return $http({
+            method: 'DELETE',
+            url: baseServiceUrl + '/posts/' + postId + '/likes/',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    postService.likeComment = function (commentId, postId) {
+        return $http({
+            method: 'POST',
+            url: baseServiceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes/',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    postService.unlikeComment = function (commentId, postId) {
+        return $http({
+            method: 'DELETE',
+            url: baseServiceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes/',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
     return postService;
 });
