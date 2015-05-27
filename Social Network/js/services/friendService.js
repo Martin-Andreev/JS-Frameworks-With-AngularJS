@@ -35,6 +35,30 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
+    friendService.getFriendRequests = function () {
+        return $http({
+            method: 'GET',
+            url: baseServiceUrl + '/me/requests/',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    friendService.approveFriendRequest = function (id) {
+        return $http({
+            method: 'PUT',
+            url: baseServiceUrl + '/me/requests/' + id + '?status=approved',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    friendService.rejectFriendRequest = function (id) {
+        return $http({
+            method: 'PUT',
+            url: baseServiceUrl + '/me/requests/' + id + '?status=rejected',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
     return friendService;
 });
 

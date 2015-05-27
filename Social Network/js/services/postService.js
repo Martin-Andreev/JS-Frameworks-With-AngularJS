@@ -104,5 +104,13 @@ app.factory('postService', function ($http, baseServiceUrl, $localStorage, authe
         })
     };
 
+    postService.getPostComments = function (postId) {
+        return $http({
+            method: 'GET',
+            url: baseServiceUrl + '/posts/' + postId + '/comments/',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
     return postService;
 });

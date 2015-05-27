@@ -1,5 +1,5 @@
 app.controller('AuthenticationController',
-    function ($scope, $location, $rootScope, authenticationService, notifyService) {
+    function ($scope, $location, $rootScope, authenticationService, notifyService, $localStorage) {
         if ($scope.isLogged) {
             authenticationService.getCurrentUserData().then(
                 function (userData) {
@@ -11,19 +11,6 @@ app.controller('AuthenticationController',
             );
         }
 
-        $scope.login = function (userData) {
-            authenticationService.login(userData).then(
-                function success(serverData) {
-                    notifyService.showInfo("Successfully logged in");
-                    authenticationService.setCredentials(serverData.data);
-                    $location.path("/");
-                },
-                function error(error) {
-                    notifyService.showError('Unsuccessful login', error.data);
-                }
-            );
-        };
-
         $scope.register = function (userData) {
             authenticationService.register(userData).then(
                 function success(serverData) {
@@ -32,7 +19,20 @@ app.controller('AuthenticationController',
                     $location.path("/");
                 },
                 function error(error) {
-                    notifyService.showError("Unable to register", error.data);
+                    notifyService.showError("Unable to register." + error.data.message);
+                }
+            );
+        };
+
+        $scope.login = function (userData) {
+            authenticationService.login(userData).then(
+                function success(serverData) {
+                    authenticationService.setCredentials(serverData.data);
+                    notifyService.showInfo("Hello, " + $localStorage.currentUser.userName);
+                    $location.path("/");
+                },
+                function error(error) {
+                    notifyService.showError('Unsuccessful login', error.data);
                 }
             );
         };
@@ -40,12 +40,12 @@ app.controller('AuthenticationController',
         $scope.logout = function () {
             authenticationService.logout().then(
                 function success(serverData) {
-                    notifyService.showInfo('Successfully logged out');
+                    notifyService.showInfo('Goodbye, ' + $localStorage.currentUser.userName);
                     $location.path('#/');
                     authenticationService.clearCredentials(serverData.data);
                 },
                 function error(error) {
-                    notifyService.showError("Unable to logout", error.data);
+                    notifyService.showError("Unable to logout", error.data.message);
                 }
             );
         };

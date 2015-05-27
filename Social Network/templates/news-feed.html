@@ -1,7 +1,7 @@
-<aside class="clearfix friendBoxAside" id="friends-section" ng-controller="FriendController">
+<aside class="clearfix friendBoxAside" id="friends-section" ng-controller="FriendController" ng-init="getOwnFriendsPreview()">
     <div class="friendsBox well bs-component">
         <div class="friendsCount">
-            <a class="friendsCountLink" href="">
+            <a class="friendsCountLink" href="#/users/{{friend.username}}/friends">
                 <p class="friendsTitle">Friends - </p>
                 <span class="friendsTotalCount">{{ownFriendsPreview.totalCount}}</span>
             </a>

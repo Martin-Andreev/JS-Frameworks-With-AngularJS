@@ -37,8 +37,9 @@
 }
 
 .userPagePostsSection{
-    position: absolute !important;
-    top: 145px;
+    /*position: absolute !important;*/
+    /*top: 145px;*/
+    margin-top: 30px;
     margin-bottom: 50px;
     padding: 0 !important;
 }
@@ -250,4 +251,14 @@ img.mini-thumbnail {
     font-size: .9em !important;
     padding: 1px 15px;
     margin: 7px 0;
+}
+
+.extraComments{
+    margin-top: 8px;
+    border: none;
+    background: none;
+}
+
+.extraComments:hover{
+    color: #226ECD;
 }
