@@ -1,6 +1,6 @@
-<div ng-include="'templates/navbar-header.html'"></div>
+<div ng-include="'templates/partial/navbar-header.html'"></div>
 <main id="wrapper">
-    <section class="col-lg-8 col-lg-offset-2" id="mainSection" ng-controller="FriendController" ng-init="getFriendRequests()">
+    <section class="col-lg-8 col-lg-offset-2" id="mainSection" ng-controller="UserController" ng-init="getFriendRequests()">
         <div class="pageName">Total Pending Friend Requests: {{friendRequests.length}}</div>
         <div class="searchSection">
             <input placeholder="Find by name..." id="searchInput" type="text" ng-model="filterRequests.user.name">

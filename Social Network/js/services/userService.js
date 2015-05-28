@@ -1,9 +1,9 @@
 'use strict';
 
-app.factory('friendService', function ($http, baseServiceUrl, $localStorage, authenticationService) {
-   var friendService = {};
+app.factory('userService', function ($http, baseServiceUrl, $localStorage, authenticationService) {
+   var userService = {};
 
-    friendService.getOwnFriendsPreview = function () {
+    userService.getOwnFriendsPreview = function () {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/me/friends/preview',
@@ -11,7 +11,7 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
-    friendService.getOwnFriendsDetailed = function () {
+    userService.getOwnFriendsDetailed = function () {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/me/friends/',
@@ -19,7 +19,7 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
-    friendService.getFriendFriendsPreview = function (username) {
+    userService.getFriendFriendsPreview = function (username) {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/users/' + username + '/friends/preview',
@@ -27,7 +27,7 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
-    friendService.getFriendFriendsDetailed = function (username) {
+    userService.getFriendFriendsDetailed = function (username) {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/users/' + username + '/friends/',
@@ -35,7 +35,7 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
-    friendService.getUserFullData = function (username) {
+    userService.getUserFullData = function (username) {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/users/' + username + '/',
@@ -43,7 +43,7 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
-    friendService.sendFriendRequest = function (username) {
+    userService.sendFriendRequest = function (username) {
         return $http({
             method: 'POST',
             url: baseServiceUrl + '/me/requests/' + username + '/',
@@ -51,7 +51,7 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
-    friendService.getFriendRequests = function () {
+    userService.getFriendRequests = function () {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/me/requests/',
@@ -59,7 +59,7 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
-    friendService.approveFriendRequest = function (id) {
+    userService.approveFriendRequest = function (id) {
         return $http({
             method: 'PUT',
             url: baseServiceUrl + '/me/requests/' + id + '?status=approved',
@@ -67,7 +67,7 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
-    friendService.rejectFriendRequest = function (id) {
+    userService.rejectFriendRequest = function (id) {
         return $http({
             method: 'PUT',
             url: baseServiceUrl + '/me/requests/' + id + '?status=rejected',
@@ -75,7 +75,7 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
-    friendService.searchUsers = function (term) {
+    userService.searchUsers = function (term) {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/users/search?searchTerm=' + term,
@@ -83,7 +83,15 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
-    return friendService;
+    userService.getNewsFeed = function () {
+        return $http({
+            method: 'GET',
+            url: baseServiceUrl + '/me/feed?StartPostId=&PageSize=5',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    return userService;
 });
 
 

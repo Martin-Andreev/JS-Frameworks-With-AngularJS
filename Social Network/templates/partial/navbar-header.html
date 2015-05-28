@@ -16,7 +16,7 @@
                     </a>
                 </li>
                 <li><a href="#/" class="news-feed icon"></a></li>
-                <li ng-controller="FriendController" ng-init="getFriendRequests()" role="presentation" class="dropdown">
+                <li ng-controller="UserController" ng-init="getFriendRequests()" role="presentation" class="dropdown">
                     <a class="friend-request icon dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-expanded="false"></a>
                     <span ng-if="friendRequests.length" class="friendRequestsCount">{{friendRequests.length}}</span>
@@ -54,7 +54,7 @@
                     </ul>
                 </li>
                 <li class="search-box">
-                    <form class="navbar-form navbar-left search-form" role="search" ng-controller="FriendController">
+                    <form class="navbar-form navbar-left search-form" role="search" ng-controller="UserController">
                         <div class="form-group search-input-box">
                             <input type="text" ng-model="term" ng-change="searchUsersByName(term)"
                                    class="form-control search-input" placeholder="Search...">

@@ -1,7 +1,7 @@
-<section class="clearfix friendBoxAside" id="friends-section" ng-controller="FriendController" ng-init="getOwnFriendsPreview()">
-    <div class="well bs-component">
-        <div class="friendsCount" ng-controller="AuthenticationController" ng-init="userData()">
-            <a class="friendsCountLink" href="#/users/{{userData.username}}/friends/">
+<section ng-init="getOwnFriendsPreview()">
+    <div class="friendsBox well bs-component">
+        <div class="friendsCount" ng-init="userData()">
+            <a class="friendsCountLink" href="#/me/friends/">
                 <p class="friendsTitle">Friends - </p>
                 <span class="friendsTotalCount">{{ownFriendsPreview.totalCount}}</span>
             </a>

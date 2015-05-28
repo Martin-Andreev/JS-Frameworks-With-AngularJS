@@ -4,8 +4,10 @@ app.controller('PostController',
             postService.getWallPosts($routeParams.username).then(
                 function (postsData) {
                     postsData.data.forEach(function (post) {
+                        post.date = new Date(post.date);
                         post.author = $scope.checkForEmptyImages(post.author);
                         post.comments.forEach(function (comment) {
+                            comment.date = new Date(comment.date);
                             comment.author = $scope.checkForEmptyImages(comment.author);
                         })
                     });
@@ -13,7 +15,7 @@ app.controller('PostController',
                     $scope.wallPosts = postsData.data;
                 },
                 function (error) {
-                    notifyService.showError('Error while loading posts', error.data)
+                    notifyService.showError('Error while loading posts' + error.data.message)
                 }
             )
         };
@@ -25,7 +27,7 @@ app.controller('PostController',
                     notifyService.showInfo('Successfully added new post')
                 },
                 function (error) {
-                    notifyService.showError('Unable to add new post', error.data.message)
+                    notifyService.showError('Unable to add new post' + error.data.message)
                 }
             )
         };
@@ -33,11 +35,16 @@ app.controller('PostController',
         $scope.editPost = function (postContent, postId) {
             postService.editPost(postContent, postId).then(
                 function () {
-                    $scope.getUserWallPage();
+                    if ($rootScope.isNewsFeed) {
+                        $scope.getNewsFeed();
+                    } else{
+                        $scope.getUserWallPage();
+                    }
+
                     notifyService.showInfo('Your post has been successfully edited')
                 },
                 function (error) {
-                    notifyService.showError('Unable to edit post', error.data.message)
+                    notifyService.showError('Unable to edit post' + error.data.message)
                 }
             )
         };
@@ -45,11 +52,16 @@ app.controller('PostController',
         $scope.deletePost = function (postId) {
             postService.deletePost(postId).then(
                 function () {
-                    $scope.getUserWallPage();
+                    if ($rootScope.isNewsFeed) {
+                        $scope.getNewsFeed();
+                    } else{
+                        $scope.getUserWallPage();
+                    }
+
                     notifyService.showInfo('The post has been successfully removed')
                 },
                 function (error) {
-                    notifyService.showError('Unable to remove this post', error.data)
+                    notifyService.showError('Unable to remove this post' + error.data.message)
                 }
             )
         };
@@ -57,11 +69,16 @@ app.controller('PostController',
         $scope.addNewComment = function (commentContent, commentId) {
             postService.addNewComment(commentContent, commentId).then(
                 function () {
-                    $scope.getUserWallPage();
+                    if ($rootScope.isNewsFeed) {
+                        $scope.getNewsFeed();
+                    } else{
+                        $scope.getUserWallPage();
+                    }
+
                     notifyService.showInfo('Successfully added new comment')
                 },
                 function (error) {
-                    notifyService.showError('Unable to add new comment', error.data.message)
+                    notifyService.showError('Unable to add new comment' + error.data.message)
                 }
             )
         };
@@ -69,11 +86,16 @@ app.controller('PostController',
         $scope.editComment = function (commentContent, commentId, postId) {
             postService.editComment(commentContent, commentId, postId).then(
                 function () {
-                    $scope.getUserWallPage();
+                    if ($rootScope.isNewsFeed) {
+                        $scope.getNewsFeed();
+                    } else{
+                        $scope.getUserWallPage();
+                    }
+
                     notifyService.showInfo('Your comment has been successfully edited')
                 },
                 function (error) {
-                    notifyService.showError('Unable to edit comment', error.data.message)
+                    notifyService.showError('Unable to edit comment' + error.data.message)
                 }
             )
         };
@@ -81,11 +103,16 @@ app.controller('PostController',
         $scope.deleteComment = function (commentId, postId) {
             postService.deleteComment(commentId, postId).then(
                 function () {
-                    $scope.getUserWallPage();
+                    if ($rootScope.isNewsFeed) {
+                        $scope.getNewsFeed();
+                    } else{
+                        $scope.getUserWallPage();
+                    }
+
                     notifyService.showInfo('Your comment has been successfully removed')
                 },
                 function (error) {
-                    notifyService.showError('Unable to remove this comment', error.data.message)
+                    notifyService.showError('Unable to remove this comment' + error.data.message)
                 }
             )
         };
@@ -93,10 +120,14 @@ app.controller('PostController',
         $scope.likePost = function (postId) {
             postService.likePost(postId).then(
                 function () {
-                    $scope.getUserWallPage();
+                    if ($rootScope.isNewsFeed) {
+                        $scope.getNewsFeed();
+                    } else{
+                        $scope.getUserWallPage();
+                    }
                 },
                 function (error) {
-                    notifyService.showError('Unable to like this post', error.data)
+                    notifyService.showError('Unable to like this post' + error.data.message)
                 }
             )
         };
@@ -104,10 +135,14 @@ app.controller('PostController',
         $scope.unlikePost = function (postId) {
             postService.unlikePost(postId).then(
                 function () {
-                    $scope.getUserWallPage();
+                    if ($rootScope.isNewsFeed) {
+                        $scope.getNewsFeed();
+                    } else{
+                        $scope.getUserWallPage();
+                    }
                 },
                 function (error) {
-                    notifyService.showError('Unable to like this comment', error.data)
+                    notifyService.showError('Unable to like this comment' + error.data.message)
                 }
             )
         };
@@ -115,10 +150,14 @@ app.controller('PostController',
         $scope.likeComment = function (commentId, postId) {
             postService.likeComment(commentId, postId).then(
                 function () {
-                    $scope.getUserWallPage();
+                    if ($rootScope.isNewsFeed) {
+                        $scope.getNewsFeed();
+                    } else{
+                        $scope.getUserWallPage();
+                    }
                 },
                 function (error) {
-                    notifyService.showError('Unable to like this comment', error.data)
+                    notifyService.showError('Unable to like this comment' + error.data.message)
                 }
             )
         };
@@ -126,10 +165,14 @@ app.controller('PostController',
         $scope.unlikeComment = function (commentId, postId) {
             postService.unlikeComment(commentId, postId).then(
                 function () {
-                    $scope.getUserWallPage();
+                    if ($rootScope.isNewsFeed) {
+                        $scope.getNewsFeed();
+                    } else{
+                        $scope.getUserWallPage();
+                    }
                 },
                 function (error) {
-                    notifyService.showError('Unable to unlike this comment', error.data)
+                    notifyService.showError('Unable to unlike this comment' + error.data.message)
                 }
             )
         };
@@ -140,7 +183,7 @@ app.controller('PostController',
                     post.comments = commentsData.data;
                 },
                 function (error) {
-                    notifyService.showError('Unable to show all comments of this post', error.data)
+                    notifyService.showError('Unable to show all comments of this post' + error.data.message)
                 }
             )
         };

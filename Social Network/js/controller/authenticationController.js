@@ -7,7 +7,7 @@ app.controller('AuthenticationController',
                         $scope.userData = $scope.checkForEmptyImages(userData.data);
                     },
                     function (error) {
-                        notifyService.showError('Unable to get current user data', error.data)
+                        notifyService.showError('Unable to get current user data. ' + error.data.message)
                     }
                 );
             }
@@ -43,8 +43,8 @@ app.controller('AuthenticationController',
             authenticationService.logout().then(
                 function success(serverData) {
                     notifyService.showInfo('Goodbye, ' + $localStorage.currentUser.userName);
-                    $location.path('/');
                     authenticationService.clearCredentials(serverData.data);
+                    $location.path('/');
                 },
                 function error(error) {
                     notifyService.showError("Unable to logout", error.data.message);

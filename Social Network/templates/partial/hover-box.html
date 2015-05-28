@@ -1,0 +1,19 @@
+<div class="post-image" ng-controller="UserController" ng-init="getUserPreviewData()">
+    <img class="mini-thumbnail" ng-src="{{userPreviewData.profileImageData}}"/>
+</div>
+<div id="hoverBoxInfo">
+    <a href="#/users/{{userPreviewData.username}}">
+        <span class="userNameMedium">{{request.user.name}}</span>
+    </a>
+
+    <p><strong>Gender:</strong> {{userPreviewData.gender | genderFilter}}</p>
+    <button ng-click="sendFriendRequest()" class="friendRequestButton"
+            ng-if="userFullData.userStatus === 'invite'">Send Friend Request
+    </button>
+    <div class="friendRequestButton friendButton" ng-if="userFullData.userStatus === 'friend'">Friend</div>
+    <div class="friendRequestButton friendButton" ng-if="userFullData.userStatus === 'pending'">Friend Request Pending
+    </div>
+</div>
+
+
+

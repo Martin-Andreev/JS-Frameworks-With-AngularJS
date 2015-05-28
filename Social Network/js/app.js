@@ -23,15 +23,15 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: 'AuthenticationController'
         })
         .when('/profile/edit-profile', {
-            templateUrl: 'templates/edit-profile.html',
-            controller: 'MainController'
+            templateUrl: 'templates/user/edit-profile.html',
+            controller: 'MainController',
         })
         .when('/profile/change-password', {
-            templateUrl: 'templates/change-password.html',
+            templateUrl: 'templates/user/change-password.html',
             controller: 'MainController'
         })
         .when('/users/:username/', {
-            templateUrl: 'templates/user-wall.html',
+            templateUrl: 'templates/user/user-wall.html',
             controller: 'MainController'
         })
         .when('/friends/requests/', {
@@ -39,7 +39,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: 'MainController'
         })
         .when('/users/:username/friends/', {
-            templateUrl: 'templates/user-all-friends.html',
+            templateUrl: 'templates/user/user-all-friends.html',
+            controller: 'MainController'
+        })
+        .when('/me/friends/', {
+            templateUrl: 'templates/user/all-own-friends.html',
             controller: 'MainController'
         })
         .otherwise({
@@ -47,9 +51,15 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
-app.run(function ($rootScope, $location, authenticationService) {
+app.run(function ($rootScope, $location, authenticationService, notifyService) {
     $rootScope.$on('$locationChangeStart', function (event) {
-        if ($location.path().indexOf("/user/") != -1 && !authenticationService.isLoggedIn()) {
+        var isRegisterPage = $location.path().indexOf('/register'),
+            isLoginPage = $location.path().indexOf('/login'),
+            isHomePage = $location.path().indexOf('/') > -1 && $location.path().length == 1,
+            isLoggedIn = authenticationService.isLoggedIn();
+
+        if (!isLoggedIn && (!isHomePage && isRegisterPage == -1 && isLoginPage == -1)) {
+            notifyService.showError('Login or register first');
             $location.path("/");
         }
     });

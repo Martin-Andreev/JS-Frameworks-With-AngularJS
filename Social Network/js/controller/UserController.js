@@ -1,29 +1,43 @@
-app.controller('FriendController',
-    function ($scope, friendService, notifyService, $routeParams) {
+app.controller('UserController',
+    function ($scope, userService, notifyService, $routeParams, $localStorage, $rootScope, $location, authenticationService) {
+        if (authenticationService.isLoggedIn()) {
+            $rootScope.isOwnWall = $localStorage.currentUser.userName  === $routeParams.username;
+            $rootScope.isNewsFeed = $location.path() === '/';
+        }
+
         $scope.getUserFullData = function getUserFullData() {
-            friendService.getUserFullData($routeParams.username).then(
+            userService.getUserFullData($routeParams.username).then(
                 function (userData) {
                     $scope.userFullData = $scope.checkForEmptyImages(userData.data);
+                    if($localStorage.currentUser.userName !== $scope.userFullData.username){
+                        if($scope.userFullData.isFriend){
+                            $scope.userFullData.userStatus = 'friend';
+                        } else if($scope.userFullData.hasPendingRequest){
+                            $scope.userFullData.userStatus = 'pending';
+                        } else {
+                            $scope.userFullData.userStatus = 'invite';
+                        }
+                    }
                 },
                 function (error) {
-                    notifyService.showError('Unable to show user data', error.data)
+                    notifyService.showError('Unable to show user data' + error.data.message)
                 }
             )
         };
 
         $scope.getUserPreviewData = function (username) {
-            friendService.getUserPreviewData(username).then(
+            userService.getUserPreviewData(username).then(
                 function (userData) {
                     $scope.userPreviewData = $scope.checkForEmptyImages(userData.data);
                 },
                 function (error) {
-                    notifyService.showError('Unable to show user data', error.data)
+                    notifyService.showError('Unable to show user data' + error.data.message)
                 }
             )
         };
 
         $scope.getOwnFriendsPreview = function () {
-            friendService.getOwnFriendsPreview().then(
+            userService.getOwnFriendsPreview().then(
                 function (friendsData) {
                     friendsData.data.friends.forEach(function (friend) {
                         $scope.checkForEmptyImages(friend);
@@ -32,13 +46,13 @@ app.controller('FriendController',
                     $scope.ownFriendsPreview = friendsData.data;
                 },
                 function (error) {
-                    notifyService.showError('Unable to show your friends', error.data)
+                    notifyService.showError('Unable to show your friends' + error.data.message)
                 }
             )
         };
 
         $scope.getOwnFriendsDetailed = function () {
-            friendService.getOwnFriendsDetailed($routeParams.username).then(
+            userService.getOwnFriendsDetailed().then(
                 function (friendsData) {
                     friendsData.data.forEach(function (friend) {
                         $scope.checkForEmptyImages(friend);
@@ -47,13 +61,13 @@ app.controller('FriendController',
                     $scope.ownFriendsDetailed = friendsData.data;
                 },
                 function (error) {
-                    notifyService.showError('Unable to show friend your friends', error.data)
+                    notifyService.showError('Unable to show your friends detailed. ' + error.data.message)
                 }
             )
         };
 
         $scope.getFriendFriendsPreview = function () {
-            friendService.getFriendFriendsPreview($routeParams.username).then(
+            userService.getFriendFriendsPreview($routeParams.username).then(
                 function (friendsData) {
                     friendsData.data.friends.forEach(function (friend) {
                         $scope.checkForEmptyImages(friend);
@@ -62,13 +76,13 @@ app.controller('FriendController',
                     $scope.friendFriendsPreview = friendsData.data;
                 },
                 function (error) {
-                    notifyService.showError('Unable to show friend friends', error.data)
+                    notifyService.showError('Unable to show friend friends. ' + error.data.message)
                 }
             )
         };
 
         $scope.getFriendFriendsDetailed = function () {
-            friendService.getFriendFriendsDetailed($routeParams.username).then(
+            userService.getFriendFriendsDetailed($routeParams.username).then(
                 function (friendsData) {
                     friendsData.data.forEach(function (friend) {
                         $scope.checkForEmptyImages(friend);
@@ -77,13 +91,13 @@ app.controller('FriendController',
                     $scope.friendFriendsDetailed = friendsData.data;
                 },
                 function (error) {
-                    notifyService.showError('Unable to show friend friends', error.data)
+                    notifyService.showError('Unable to show friend friends detailed. ' + error.data.message)
                 }
             )
         };
 
         $scope.getFriendRequests = function () {
-            friendService.getFriendRequests().then(
+            userService.getFriendRequests().then(
                 function (friendRequestData) {
                     friendRequestData.data.forEach(function (requestData) {
                         $scope.checkForEmptyImages(requestData.user);
@@ -91,50 +105,50 @@ app.controller('FriendController',
                     $scope.friendRequests = friendRequestData.data;
                 },
                 function (error) {
-                    notifyService.showError('Unable to show friend requests' + error.data.message)
+                    notifyService.showError('Unable to show friend requests. ' + error.data.message)
                 });
         };
 
         $scope.sendFriendRequest = function () {
-            friendService.sendFriendRequest($routeParams.username).then(
+            userService.sendFriendRequest($routeParams.username).then(
                 function () {
                     notifyService.showInfo('Friend request has been successfully sent');
-                    $scope.userFullData.hasPendingRequest = true;
+                    $scope.getUserFullData();
                 },
                 function (error) {
-                    notifyService.showError('Unable to send friend request', error.data)
+                    notifyService.showError('Unable to send friend request. ' + error.data.message)
                 }
             )
         };
 
         $scope.approveFriendRequest = function (id) {
-            friendService.approveFriendRequest(id).then(
+            userService.approveFriendRequest(id).then(
                 function () {
                     $scope.getFriendRequests();
                     $scope.getOwnFriendsPreview();
                     notifyService.showInfo('Friend request from has been approved')
                 },
                 function (error) {
-                    notifyService.showError('Unable to approve friend request' + error.data.message)
+                    notifyService.showError('Unable to approve friend request. ' + error.data.message)
                 }
             )
         };
 
         $scope.rejectFriendRequest = function (id) {
-            friendService.rejectFriendRequest(id).then(
+            userService.rejectFriendRequest(id).then(
                 function () {
                     $scope.getFriendRequests();
                     notifyService.showInfo('Friend request from has been rejected')
                 },
                 function (error) {
-                    notifyService.showError('Unable to reject friend request' + error.data.message)
+                    notifyService.showError('Unable to reject friend request. ' + error.data.message)
                 }
             )
         };
 
         $scope.searchUsersByName = function (term) {
             if (term.trim().length > 0) {
-                friendService.searchUsers(term).then(
+                userService.searchUsers(term).then(
                     function (serverData) {
                         serverData.data.forEach(function (user) {
                             $scope.checkForEmptyImages(user);
@@ -143,9 +157,30 @@ app.controller('FriendController',
                         $scope.searchResult = serverData.data;
                     },
                     function (error) {
-                        notifyService.showError('Unable to search with the given terms' + error.data.message);
+                        notifyService.showError('Unable to search with the given terms. ' + error.data.message);
                     });
             }
+        };
+
+        $scope.getNewsFeed = function () {
+            userService.getNewsFeed().then(
+                function (serverData) {
+                    serverData.data.forEach(function (post) {
+                        post.date = new Date(post.date);
+                        post.author = $scope.checkForEmptyImages(post.author);
+                        post.wallOwner = $scope.checkForEmptyImages(post.wallOwner);
+                        post.comments.forEach(function (comment) {
+                            comment.date = new Date(comment.date);
+                            comment.author = $scope.checkForEmptyImages(comment.author);
+                        })
+                    });
+
+                    $scope.newsFeed = serverData.data;
+                },
+                function (error) {
+                    notifyService.showError('Unable to show news feed. ' + error.data.message);
+                }
+            )
         };
 
         //if ($routeParams.username == undefined) {
