@@ -47,7 +47,7 @@
         <aside ng-init="getFriendFriendsPreview()" ng-if="userFullData.isFriend" id="friends-section">
             <div class="friendFriendsBox well bs-component">
                 <div class="friendsCount">
-                    <a class="friendsCountLink" href="">
+                    <a class="friendsCountLink" href="#/users/{{userFullData.username}}/friends/">
                         <p class="friendsTitle">Friends - </p>
                         <span class="friendsTotalCount">{{friendFriendsPreview.totalCount}}</span>
                     </a>

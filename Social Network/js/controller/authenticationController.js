@@ -1,14 +1,16 @@
 app.controller('AuthenticationController',
     function ($scope, $location, $rootScope, authenticationService, notifyService, $localStorage) {
         if ($scope.isLogged) {
-            authenticationService.getCurrentUserData().then(
-                function (userData) {
-                    $scope.userData = $scope.checkForEmptyImages(userData.data);
-                },
-                function (error) {
-                    notifyService.showError('Unable to get current user data', error.data)
-                }
-            );
+            $scope.userData = function () {
+                authenticationService.getCurrentUserData().then(
+                    function (userData) {
+                        $scope.userData = $scope.checkForEmptyImages(userData.data);
+                    },
+                    function (error) {
+                        notifyService.showError('Unable to get current user data', error.data)
+                    }
+                );
+            }
         }
 
         $scope.register = function (userData) {
@@ -41,7 +43,7 @@ app.controller('AuthenticationController',
             authenticationService.logout().then(
                 function success(serverData) {
                     notifyService.showInfo('Goodbye, ' + $localStorage.currentUser.userName);
-                    $location.path('#/');
+                    $location.path('/');
                     authenticationService.clearCredentials(serverData.data);
                 },
                 function error(error) {
@@ -69,7 +71,7 @@ app.controller('AuthenticationController',
             authenticationService.editProfile(data).then(
                 function success() {
                     notifyService.showInfo('Your profile has been successfully edited');
-                    $location.path('#/');
+                    $location.path('/');
                 },
                 function error(error) {
                     notifyService.showError("Unable to edit your profile", error.data);
@@ -81,7 +83,7 @@ app.controller('AuthenticationController',
             authenticationService.changePassword(userData).then(
                 function success() {
                     notifyService.showInfo('Your password has been successfully changed');
-                    $location.path('#/');
+                    $location.path('/');
                 },
                 function error(error) {
                     notifyService.showError('Unable to change password', error.data);

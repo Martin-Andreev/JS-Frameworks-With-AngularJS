@@ -1,43 +1,44 @@
-#friendRequest{
+#mainSection{
     margin-top: 30px;
+    margin-bottom: 70px;
     box-shadow: inset 0 0 0 1px rgba(31,31,31,.16),0 0 10px rgba(0,0,0,.15),0 0 10px rgba(0,0,0,.15);
     text-align: left;
     white-space: nowrap;
     padding: 0;
 }
 
-.pendingRequestsSection{
+.listSection{
     list-style: none;
     margin-top: 10px;
     text-align: center;
 }
 
-.pendingRequests{
+.listElement{
     text-align: center;
     margin-bottom: 15px;
 }
 
-.pendingRequestImageSection{
+.imageSection{
     display: block;
     margin: 10px 0;
 }
 
-.pendingRequestImage{
+.largeImageThumbnail{
     width: 150px;
     height: 150px;
 }
 
-.pendingRequestUserName{
+.largeUsername{
     color: #000;
     display: block;
     font-size: 1.5em;
 }
 
-.pendingRequestUserName{
+.largeUsername{
     color: #000;
 }
 
-.pendingRequestUserName > span:hover{
+.largeUsername > span:hover{
     color: #000;
     text-decoration: underline;
 }
@@ -46,17 +47,17 @@
     margin: 3px 0;
 }
 
-.searchPendingRequestFilter{
+.searchSection{
     text-align: center;
     margin: 10px 0;
 }
 
-#friendRequestSearch{
+#searchInput{
     display: block;
     margin: 0 auto;
     width: 35%;
     padding: 4px 8px;
     border-radius: 3px;
-    border: 1px solid rgba(37, 37, 37, 0.82);
-    box-shadow: inset 0 0 0 1px rgba(31,31,31,.10),0 0 10px rgba(0,0,0,.15),0 0 10px rgba(0,0,0,.15);
+    border: 1px solid rgba(37, 37, 37, 0.42);
+    box-shadow: inset 0 0 0 1px rgba(31,31,31,.07),0 0 10px rgba(0,0,0,.10),0 0 10px rgba(0,0,0,.10);
 }

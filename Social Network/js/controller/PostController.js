@@ -1,5 +1,5 @@
 app.controller('PostController',
-    function ($scope, $location, $rootScope, postService, notifyService, $routeParams, $localStorage, $route) {
+    function ($scope, $rootScope, postService, notifyService, $routeParams, $localStorage) {
         $scope.getUserWallPage =  function () {
             postService.getWallPosts($routeParams.username).then(
                 function (postsData) {

@@ -1,7 +1,8 @@
 <div ng-include="'templates/navbar-header.html'"></div>
-<main id="wrapper">
+<main id="wrapper" class="col-lg-10 col-lg-offset-1">
     <section ng-if="!isLogged" id="home-background-image-section">
         <img class="home-background-image" src="resourses/images/home-screen.jpg"/>
     </section>
     <section ng-if="isLogged" id="news-feed" ng-include="'templates/news-feed.html'"></section>
+    <aside ng-if="isLogged" class="col-lg-4 pull-right clearfix" ng-include="'templates/friends-preview.html'"></aside>
 </main>

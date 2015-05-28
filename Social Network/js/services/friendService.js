@@ -11,10 +11,26 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         })
     };
 
+    friendService.getOwnFriendsDetailed = function () {
+        return $http({
+            method: 'GET',
+            url: baseServiceUrl + '/me/friends/',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
     friendService.getFriendFriendsPreview = function (username) {
         return $http({
             method: 'GET',
             url: baseServiceUrl + '/users/' + username + '/friends/preview',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    friendService.getFriendFriendsDetailed = function (username) {
+        return $http({
+            method: 'GET',
+            url: baseServiceUrl + '/users/' + username + '/friends/',
             headers: authenticationService.getHeaders()
         })
     };
@@ -55,6 +71,14 @@ app.factory('friendService', function ($http, baseServiceUrl, $localStorage, aut
         return $http({
             method: 'PUT',
             url: baseServiceUrl + '/me/requests/' + id + '?status=rejected',
+            headers: authenticationService.getHeaders()
+        })
+    };
+
+    friendService.searchUsers = function (term) {
+        return $http({
+            method: 'GET',
+            url: baseServiceUrl + '/users/search?searchTerm=' + term,
             headers: authenticationService.getHeaders()
         })
     };

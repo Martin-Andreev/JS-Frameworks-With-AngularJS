@@ -38,7 +38,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'templates/friend-requests.html',
             controller: 'MainController'
         })
-        .when('/users/:username/friends', {
+        .when('/users/:username/friends/', {
             templateUrl: 'templates/user-all-friends.html',
             controller: 'MainController'
         })
