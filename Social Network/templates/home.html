@@ -6,8 +6,8 @@
     <section ng-if="isLogged" class="mainContent" ng-controller="UserController">
         <section class="col-lg-7"
                  ng-controller="PostController"
-                 ng-init="getNewsFeed()"
                  id="newsFeed"
+                 infinite-scroll='getNewsFeed()'
                  ng-include="'templates/partial/news-feed.html'">
         </section>
         <aside id="friendAside" ng-include="'templates/partial/friends-preview.html'"></aside>

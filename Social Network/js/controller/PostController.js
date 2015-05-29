@@ -1,7 +1,13 @@
 app.controller('PostController',
-    function ($scope, $rootScope, postService, notifyService, $routeParams, $localStorage) {
+    function ($scope, $rootScope, postService, notifyService, $routeParams, $localStorage, usSpinnerService, authenticationService, pageSize) {
+        if (authenticationService.isLoggedIn()) {
+            var startPostId;
+            $scope.wallPosts = [];
+        }
+
         $scope.getUserWallPage =  function () {
-            postService.getWallPosts($routeParams.username).then(
+            usSpinnerService.spin('spinner-1');
+            postService.getWallPosts($routeParams.username, pageSize, startPostId).then(
                 function (postsData) {
                     postsData.data.forEach(function (post) {
                         post.date = new Date(post.date);
@@ -12,178 +18,188 @@ app.controller('PostController',
                         })
                     });
 
-                    $scope.wallPosts = postsData.data;
-                },
-                function (error) {
-                    notifyService.showError('Error while loading posts' + error.data.message)
-                }
-            )
-        };
-
-        $scope.addNewPost = function (postContent) {
-            postService.addNewPost(postContent, $routeParams.username).then(
-                function () {
-                    $scope.getUserWallPage();
-                    notifyService.showInfo('Successfully added new post')
-                },
-                function (error) {
-                    notifyService.showError('Unable to add new post' + error.data.message)
-                }
-            )
-        };
-
-        $scope.editPost = function (postContent, postId) {
-            postService.editPost(postContent, postId).then(
-                function () {
-                    if ($rootScope.isNewsFeed) {
-                        $scope.getNewsFeed();
-                    } else{
-                        $scope.getUserWallPage();
+                    $scope.wallPosts = $scope.wallPosts.concat(postsData.data);
+                    if($scope.wallPosts.length > 0){
+                        startPostId = $scope.wallPosts[$scope.wallPosts.length - 1].id;
                     }
 
-                    notifyService.showInfo('Your post has been successfully edited')
+                    usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to edit post' + error.data.message)
+                    notifyService.showError('Error while loading posts' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
                 }
             )
         };
 
-        $scope.deletePost = function (postId) {
-            postService.deletePost(postId).then(
-                function () {
-                    if ($rootScope.isNewsFeed) {
-                        $scope.getNewsFeed();
-                    } else{
-                        $scope.getUserWallPage();
-                    }
-
-                    notifyService.showInfo('The post has been successfully removed')
+        $scope.addNewPost = function (postData) {
+            usSpinnerService.spin('spinner-1');
+            postService.addNewPost(postData.postContent, $routeParams.username).then(
+                function (serverData) {
+                    postData.postContent = '';
+                    $scope.wallPosts.unshift(serverData.data);
+                    notifyService.showInfo('Successfully added new post');
+                    usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to remove this post' + error.data.message)
+                    notifyService.showError('Unable to add new post' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
                 }
             )
         };
 
-        $scope.addNewComment = function (commentContent, commentId) {
-            postService.addNewComment(commentContent, commentId).then(
+        $scope.editPost = function (post) {
+            usSpinnerService.spin('spinner-1');
+            postService.editPost(post.editedPostContent, post.id).then(
                 function () {
-                    if ($rootScope.isNewsFeed) {
-                        $scope.getNewsFeed();
-                    } else{
-                        $scope.getUserWallPage();
-                    }
-
-                    notifyService.showInfo('Successfully added new comment')
+                    post.postContent = post.editedPostContent;
+                    post.editing = false;
+                    notifyService.showInfo('Your post has been successfully edited');
+                    usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to add new comment' + error.data.message)
+                    notifyService.showError('Unable to edit post' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
                 }
             )
         };
 
-        $scope.editComment = function (commentContent, commentId, postId) {
-            postService.editComment(commentContent, commentId, postId).then(
+        $scope.deletePost = function (post) {
+            usSpinnerService.spin('spinner-1');
+            postService.deletePost(post.id).then(
                 function () {
-                    if ($rootScope.isNewsFeed) {
-                        $scope.getNewsFeed();
-                    } else{
-                        $scope.getUserWallPage();
-                    }
-
-                    notifyService.showInfo('Your comment has been successfully edited')
+                    var deletedPostIndex =  $scope.wallPosts.indexOf(post);
+                    $scope.wallPosts.splice(deletedPostIndex, 1);
+                    notifyService.showInfo('The post has been successfully removed');
+                    usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to edit comment' + error.data.message)
+                    notifyService.showError('Unable to remove this post' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
                 }
             )
         };
 
-        $scope.deleteComment = function (commentId, postId) {
-            postService.deleteComment(commentId, postId).then(
-                function () {
-                    if ($rootScope.isNewsFeed) {
-                        $scope.getNewsFeed();
-                    } else{
-                        $scope.getUserWallPage();
-                    }
-
-                    notifyService.showInfo('Your comment has been successfully removed')
+        $scope.addNewComment = function (post) {
+            usSpinnerService.spin('spinner-1');
+            postService.addNewComment(post.commentContent, post.id).then(
+                function (serverData) {
+                    post.commentContent  = "";
+                    post.comments.unshift(serverData.data);
+                    post.totalCommentsCount++;
+                    notifyService.showInfo('Successfully added new comment');
+                    usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to remove this comment' + error.data.message)
+                    notifyService.showError('Unable to add new comment. ' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
                 }
             )
         };
 
-        $scope.likePost = function (postId) {
-            postService.likePost(postId).then(
+        $scope.editComment = function (comment, post) {
+            usSpinnerService.spin('spinner-1');
+            postService.editComment(comment.editedCommentContent, comment.id, post.id).then(
                 function () {
-                    if ($rootScope.isNewsFeed) {
-                        $scope.getNewsFeed();
-                    } else{
-                        $scope.getUserWallPage();
-                    }
+                    comment.commentContent = comment.editedCommentContent;
+                    comment.editing = false;
+                    notifyService.showInfo('Your comment has been successfully edited');
+                    usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to like this post' + error.data.message)
+                    notifyService.showError('Unable to edit comment' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
                 }
             )
         };
 
-        $scope.unlikePost = function (postId) {
-            postService.unlikePost(postId).then(
+        $scope.deleteComment = function (comment, post) {
+            usSpinnerService.spin('spinner-1');
+            postService.deleteComment(comment.id, post.id).then(
                 function () {
-                    if ($rootScope.isNewsFeed) {
-                        $scope.getNewsFeed();
-                    } else{
-                        $scope.getUserWallPage();
-                    }
+                    var deletedCommentIndex =  post.comments.indexOf(comment);
+                    post.comments.splice(deletedCommentIndex, 1);
+                    post.totalCommentsCount--;
+                    notifyService.showInfo('Your comment has been successfully removed');
+                    usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to like this comment' + error.data.message)
+                    notifyService.showError('Unable to remove this comment' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
                 }
             )
         };
 
-        $scope.likeComment = function (commentId, postId) {
-            postService.likeComment(commentId, postId).then(
+        $scope.likePost = function (post) {
+            usSpinnerService.spin('spinner-1');
+            postService.likePost(post.id).then(
                 function () {
-                    if ($rootScope.isNewsFeed) {
-                        $scope.getNewsFeed();
-                    } else{
-                        $scope.getUserWallPage();
-                    }
+                    post.liked = true;
+                    post.likesCount++;
+                    usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to like this comment' + error.data.message)
+                    notifyService.showError('Unable to like this post' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
                 }
             )
         };
 
-        $scope.unlikeComment = function (commentId, postId) {
-            postService.unlikeComment(commentId, postId).then(
+        $scope.unlikePost = function (post) {
+            usSpinnerService.spin('spinner-1');
+            postService.unlikePost(post.id).then(
                 function () {
-                    if ($rootScope.isNewsFeed) {
-                        $scope.getNewsFeed();
-                    } else{
-                        $scope.getUserWallPage();
-                    }
+                    post.liked = false;
+                    post.likesCount--;
+                    usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to unlike this comment' + error.data.message)
+                    notifyService.showError('Unable to like this comment' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
+                }
+            )
+        };
+
+        $scope.likeComment = function (comment, postId) {
+            usSpinnerService.spin('spinner-1');
+            postService.likeComment(comment.id, postId).then(
+                function () {
+                    comment.liked = true;
+                    comment.likesCount++;
+                    usSpinnerService.stop('spinner-1');
+                },
+                function (error) {
+                    notifyService.showError('Unable to like this comment' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
+                }
+            )
+        };
+
+        $scope.unlikeComment = function (comment, postId) {
+            usSpinnerService.spin('spinner-1');
+            postService.unlikeComment(comment.id, postId).then(
+                function () {
+                    comment.liked = false;
+                    comment.likesCount--;
+                    usSpinnerService.stop('spinner-1');
+                },
+                function (error) {
+                    notifyService.showError('Unable to unlike this comment' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
                 }
             )
         };
 
         $scope.getPostComments = function (post) {
+            usSpinnerService.spin('spinner-1');
             postService.getPostComments(post.id).then(
                 function (commentsData) {
                     post.comments = commentsData.data;
+                    usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to show all comments of this post' + error.data.message)
+                    notifyService.showError('Unable to show all comments of this post' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
                 }
             )
         };
@@ -213,9 +229,4 @@ app.controller('PostController',
 
             return $routeParams.username === $localStorage.currentUser.userName;
         };
-
-        //if ($routeParams.username == undefined) {
-        //} else{
-        //    getUserWallPage();
-        //}
     });

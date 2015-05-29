@@ -3,7 +3,7 @@
     <div ng-if="!wallPosts.length" class="wallPostHeaderText">No posts on {{userFullData.name}}'s wall</div>
 </header>
 <section id="posts" ng-repeat="post in wallPosts">
-    <article class="post well">
+    <article class="post well" infinite-scroll='getWallPosts()'>
         <header class="post-header">
             <div class="post-image">
                 <a href="#/users/{{post.author.username}}">
@@ -27,7 +27,7 @@
                      src="resourses/images/edit-button.png"/>
                 <img ng-if="isDeletable(post)"
                      class="postIcon clickableIcon"
-                     ng-click="deletePost(post.id)"
+                     ng-click="deletePost(post)"
                      src="resourses/images/delete-button.png"/>
             </aside>
         </header>
@@ -36,7 +36,7 @@
                 <textarea class="editContent col-lg-12" rows="4" ng-model="post.editedPostContent"></textarea>
 
                 <div class="optionButtons col-lg-5 col-lg-offset-4">
-                    <button class="btn btn-default btnEdit" ng-click="editPost(post.editedPostContent, post.id)">
+                    <button class="btn btn-default btnEdit" ng-click="editPost(post)">
                         Edit
                     </button>
                     <a class="btn btn-default btnEdit" ng-click="post.editing = false">Cancel</a>
@@ -50,21 +50,21 @@
                 <span class="queryResult">{{post.totalCommentsCount}}</span>
             </div>
             <div ng-if="isAuthorized(post)" class="likes pull-right">
-                <img ng-click="likePost(post.id)" ng-if="!post.liked" class="postIcon clickableIcon"
+                <img ng-click="likePost(post)" ng-if="!post.liked" class="postIcon clickableIcon"
                      src="resourses/images/like-button.png"/>
-                <img ng-click="unlikePost(post.id)" ng-if="post.liked" class="postIcon clickableIcon"
+                <img ng-click="unlikePost(post)" ng-if="post.liked" class="postIcon clickableIcon"
                      src="resourses/images/unlike-button.png"/>
                 <span class="queryResult">{{post.likesCount}}</span>
             </div>
         </section>
         <section class="commentsSection clearfix">
             <header class="userComment clearfix" ng-controller="AuthenticationController" ng-if="isAuthorized(post)">
-                <textarea rows="2" class="userCommentText textComment col-lg-12" ng-model="commentContent"></textarea>
+                <textarea rows="2" class="userCommentText textComment col-lg-12" ng-model="post.commentContent"></textarea>
                 <div class="commentAuthorSection clearfix pull-left" ng-init="userData()">
                     <img class="commentAuthorImage" ng-src="{{userData.profileImageData}}"/>
                     <div class="commentAuthorText">as <span class="commentAuthorName">{{userData.name}}</span></div>
                 </div>
-                <button ng-click="addNewComment(commentContent, post.id)"
+                <button ng-click="addNewComment(post)"
                         class="submitButton commentButton clearfix pull-right">Comment
                 </button>
             </header>
@@ -89,11 +89,11 @@
                     </div>
                     <aside ng-if="isAuthorized(post)" class="options commentOptions pull-right">
                         <img ng-if="!comment.liked"
-                             ng-click="likeComment(comment.id, post.id)"
+                             ng-click="likeComment(comment, post.id)"
                              class="postIcon clickableIcon"
                              src="resourses/images/like-button.png"/>
                         <img ng-if="comment.liked"
-                             ng-click="unlikeComment(comment.id, post.id)"
+                             ng-click="unlikeComment(comment, post.id)"
                              class="postIcon clickableIcon"
                              src="resourses/images/unlike-button.png"/>
                         <span class="queryResult">{{comment.likesCount}}</span>
@@ -102,18 +102,16 @@
                              class="postIcon clickableIcon"
                              src="resourses/images/edit-button.png"/>
                         <img ng-if="isDeletable(post, comment.author)"
-                             ng-click="deleteComment(comment.id, post.id)"
+                             ng-click="deleteComment(comment, post)"
                              class="postIcon clickableIcon"
                              src="resourses/images/delete-button.png"/>
                     </aside>
                     <section class="post-content">
                         <div ng-if="comment.editing" class="editContentSection clearfix">
-                                        <textarea class="editContent editComment col-lg-9"
-                                                  ng-model="comment.editedCommentContent"></textarea>
-
+                            <textarea class="editContent editComment col-lg-9" ng-model="comment.editedCommentContent"></textarea>
                             <div class="optionButtons col-lg-5 col-lg-offset-2">
                                 <button class="btn btn-default btnEditComment"
-                                        ng-click="editComment(comment.editedCommentContent, comment.id, post.id)">Edit
+                                        ng-click="editComment(comment, post)">Edit
                                 </button>
                                 <a class="btn btn-default btnEditComment"
                                    ng-click="comment.editing = false">Cancel

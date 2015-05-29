@@ -1,8 +1,12 @@
 'use strict';
 
-var app = angular.module('socialNetworkApp', ['ngRoute', 'ngResource', 'naif.base64', 'ngStorage']);
+var app = angular.module('socialNetworkApp', ['ngRoute', 'ngResource', 'naif.base64', 'ngStorage', 'angularSpinner', 'infinite-scroll']);
 
-app.constant('baseServiceUrl', 'http://softuni-social-network.azurewebsites.net/api');
+app.constant({
+    'baseServiceUrl': 'http://softuni-social-network.azurewebsites.net/api',
+    'pageSize': 5
+});
+
 
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
