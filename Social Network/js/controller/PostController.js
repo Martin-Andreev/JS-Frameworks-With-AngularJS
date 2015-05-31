@@ -1,43 +1,8 @@
 app.controller('PostController',
-    function ($scope, $rootScope, postService, notifyService, $routeParams, $localStorage, usSpinnerService, authenticationService, pageSize) {
+    function ($scope, $rootScope, postService, notifyService, $routeParams, $localStorage, usSpinnerService, authenticationService) {
         if (authenticationService.isLoggedIn()) {
-            var startPostId;
-            $scope.wallPosts = [];
             $scope.busy = false;
         }
-
-        $scope.getUserWallPage =  function () {
-            if ($scope.busy){
-                return;
-            }
-            $scope.busy = true;
-
-            usSpinnerService.spin('spinner-1');
-            postService.getWallPosts($routeParams.username, pageSize, startPostId).then(
-                function (postsData) {
-                    postsData.data.forEach(function (post) {
-                        post.date = new Date(post.date);
-                        post.author = $scope.checkForEmptyImages(post.author);
-                        post.comments.forEach(function (comment) {
-                            comment.date = new Date(comment.date);
-                            comment.author = $scope.checkForEmptyImages(comment.author);
-                        })
-                    });
-
-                    $scope.busy = false;
-                    $scope.wallPosts = $scope.wallPosts.concat(postsData.data);
-                    if($scope.wallPosts.length > 0){
-                        startPostId = $scope.wallPosts[$scope.wallPosts.length - 1].id;
-                    }
-
-                    usSpinnerService.stop('spinner-1');
-                },
-                function (error) {
-                    notifyService.showError('Error while loading posts' + error.data.message);
-                    usSpinnerService.stop('spinner-1');
-                }
-            )
-        };
 
         $scope.addNewPost = function (postContent) {
             usSpinnerService.spin('spinner-1');

@@ -1,10 +1,13 @@
 app.controller('UserController',
-    function ($scope, userService, notifyService, $routeParams, $localStorage, $timeout, $rootScope, $location, authenticationService, usSpinnerService, pageSize) {
+    function ($scope, userService, notifyService, $routeParams, $localStorage, $rootScope, $location, authenticationService, usSpinnerService, pageSize, postService) {
         if (authenticationService.isLoggedIn()) {
             $rootScope.isOwnWall = $localStorage.currentUser.userName  === $routeParams.username;
             $rootScope.isNewsFeed = $location.path() === '/';
-            var startPostId;
+            $scope.wallPosts = [];
             $scope.newsFeed = [];
+            $scope.busy = false;
+            var startNewsFeedPostId,
+                startWallPagePostId;
         }
 
         $scope.getUserFullData = function getUserFullData() {
@@ -217,8 +220,13 @@ app.controller('UserController',
         };
 
         $scope.getNewsFeed = function () {
+            if ($scope.busy){
+                return;
+            }
+            $scope.busy = true;
+
             usSpinnerService.spin('spinner-1');
-            userService.getNewsFeed(pageSize, startPostId).then(
+            userService.getNewsFeed(pageSize, startNewsFeedPostId).then(
                 function (serverData) {
                     serverData.data.forEach(function (post) {
                         post.date = new Date(post.date);
@@ -230,15 +238,49 @@ app.controller('UserController',
                         })
                     });
 
+                    $scope.busy = false;
                     $scope.newsFeed = $scope.newsFeed.concat(serverData.data);
                     if($scope.newsFeed.length > 0){
-                        startPostId = $scope.newsFeed[$scope.newsFeed.length - 1].id;
+                        startNewsFeedPostId = $scope.newsFeed[$scope.newsFeed.length - 1].id;
                     }
 
                     usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
                     notifyService.showError('Unable to show news feed. ' + error.data.message);
+                    usSpinnerService.stop('spinner-1');
+                }
+            )
+        };
+
+        $scope.getUserWallPage =  function () {
+            if ($scope.busy){
+                return;
+            }
+            $scope.busy = true;
+
+            usSpinnerService.spin('spinner-1');
+            postService.getWallPosts($routeParams.username, pageSize, startWallPagePostId).then(
+                function (postsData) {
+                    postsData.data.forEach(function (post) {
+                        post.date = new Date(post.date);
+                        post.author = $scope.checkForEmptyImages(post.author);
+                        post.comments.forEach(function (comment) {
+                            comment.date = new Date(comment.date);
+                            comment.author = $scope.checkForEmptyImages(comment.author);
+                        })
+                    });
+
+                    $scope.busy = false;
+                    $scope.wallPosts = $scope.wallPosts.concat(postsData.data);
+                    if($scope.wallPosts.length > 0){
+                        startWallPagePostId = $scope.wallPosts[$scope.wallPosts.length - 1].id;
+                    }
+
+                    usSpinnerService.stop('spinner-1');
+                },
+                function (error) {
+                    notifyService.showError('Error while loading posts' + error.data.message);
                     usSpinnerService.stop('spinner-1');
                 }
             )
