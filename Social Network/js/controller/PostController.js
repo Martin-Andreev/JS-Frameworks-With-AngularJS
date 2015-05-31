@@ -3,9 +3,15 @@ app.controller('PostController',
         if (authenticationService.isLoggedIn()) {
             var startPostId;
             $scope.wallPosts = [];
+            $scope.busy = false;
         }
 
         $scope.getUserWallPage =  function () {
+            if ($scope.busy){
+                return;
+            }
+            $scope.busy = true;
+
             usSpinnerService.spin('spinner-1');
             postService.getWallPosts($routeParams.username, pageSize, startPostId).then(
                 function (postsData) {
@@ -18,6 +24,7 @@ app.controller('PostController',
                         })
                     });
 
+                    $scope.busy = false;
                     $scope.wallPosts = $scope.wallPosts.concat(postsData.data);
                     if($scope.wallPosts.length > 0){
                         startPostId = $scope.wallPosts[$scope.wallPosts.length - 1].id;
