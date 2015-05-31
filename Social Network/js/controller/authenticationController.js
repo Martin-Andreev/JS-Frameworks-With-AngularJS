@@ -9,7 +9,7 @@ app.controller('AuthenticationController',
                         $scope.userData = $scope.checkForEmptyImages(userData.data);
                     },
                     function (error) {
-                        notifyService.showError('Unable to get current user data. ' + error.data.message)
+                        notifyService.showError('Unable to get current user data. ' + error.data.message);
                         usSpinnerService.stop('spinner-1');
                     }
                 );
@@ -42,7 +42,7 @@ app.controller('AuthenticationController',
                     $location.path("/");
                 },
                 function error(error) {
-                    notifyService.showError('Unsuccessful login', error.data);
+                    notifyService.showError('Unsuccessful login' + error.data.message);
                     usSpinnerService.stop('spinner-1');
                 }
             );
@@ -58,7 +58,7 @@ app.controller('AuthenticationController',
                     $location.path('/');
                 },
                 function error(error) {
-                    notifyService.showError("Unable to logout", error.data.message);
+                    notifyService.showError("Unable to logout" + error.data.message);
                     usSpinnerService.stop('spinner-1');
                 }
             );
@@ -88,7 +88,7 @@ app.controller('AuthenticationController',
                     $location.path('/');
                 },
                 function error(error) {
-                    notifyService.showError("Unable to edit your profile", error.data);
+                    notifyService.showError("Unable to edit your profile. " + error.data.message);
                     usSpinnerService.stop('spinner-1');
                 }
             );
@@ -103,7 +103,7 @@ app.controller('AuthenticationController',
                     $location.path('/');
                 },
                 function error(error) {
-                    notifyService.showError('Unable to change password', error.data);
+                    notifyService.showError('Unable to change password. ' + error.data.message);
                     usSpinnerService.stop('spinner-1');
                 }
             )

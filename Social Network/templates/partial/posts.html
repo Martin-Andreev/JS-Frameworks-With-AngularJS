@@ -6,9 +6,7 @@
     <article class="post well" infinite-scroll='getWallPosts()'>
         <header class="post-header">
             <div class="post-image">
-                <a href="#/users/{{post.author.username}}">
-                    <img class="mini-thumbnail" ng-src="{{post.author.profileImageData}}"/>
-                </a>
+                <img class="mini-thumbnail hover-box" popup-show="templates/partial/user-preview.html" ng-click="getUserPreviewData(post.author.username)" ng-src="{{post.author.profileImageData}}"/>
             </div>
             <div class="post-info">
                 <div class="postUserInfo">
@@ -72,10 +70,10 @@
                 <section class="postComments clearfix" ng-repeat="comment in post.comments">
                     <div class="postComment">
                         <div class="post-image">
-                            <a href="#/users/{{comment.author.username}}">
-                                <img class="comment-mini-thumbnail"
+                                <img class="comment-mini-thumbnail hover-box"
+                                     popup-show="templates/partial/user-preview.html"
+                                     ng-click="getUserPreviewData(comment.author.username)"
                                      ng-src="{{comment.author.profileImageData}}"/>
-                            </a>
                         </div>
                         <div class="comment-info post-info">
                             <div class="postUserInfo">

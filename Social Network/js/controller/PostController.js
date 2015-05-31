@@ -32,11 +32,11 @@ app.controller('PostController',
             )
         };
 
-        $scope.addNewPost = function (postData) {
+        $scope.addNewPost = function (postContent) {
             usSpinnerService.spin('spinner-1');
-            postService.addNewPost(postData.postContent, $routeParams.username).then(
+            postService.addNewPost(postContent, $routeParams.username).then(
                 function (serverData) {
-                    postData.postContent = '';
+                    $scope.postContent = '';
                     $scope.wallPosts.unshift(serverData.data);
                     notifyService.showInfo('Successfully added new post');
                     usSpinnerService.stop('spinner-1');

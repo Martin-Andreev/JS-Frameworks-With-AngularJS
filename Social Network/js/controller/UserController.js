@@ -1,5 +1,5 @@
 app.controller('UserController',
-    function ($scope, userService, notifyService, $routeParams, $localStorage, $rootScope, $location, authenticationService, usSpinnerService, pageSize) {
+    function ($scope, userService, notifyService, $routeParams, $localStorage, $timeout, $rootScope, $location, authenticationService, usSpinnerService, pageSize) {
         if (authenticationService.isLoggedIn()) {
             $rootScope.isOwnWall = $localStorage.currentUser.userName  === $routeParams.username;
             $rootScope.isNewsFeed = $location.path() === '/';
@@ -36,10 +36,19 @@ app.controller('UserController',
             userService.getUserPreviewData(username).then(
                 function (userData) {
                     $scope.userPreviewData = $scope.checkForEmptyImages(userData.data);
+                    if($localStorage.currentUser.userName !== $scope.userPreviewData.username){
+                        if($scope.userPreviewData.isFriend){
+                            $scope.userPreviewData.userStatus = 'friend';
+                        } else if($scope.userPreviewData.hasPendingRequest){
+                            $scope.userPreviewData.userStatus = 'pending';
+                        } else {
+                            $scope.userPreviewData.userStatus = 'invite';
+                        }
+                    }
                     usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
-                    notifyService.showError('Unable to show user data' + error.data.message);
+                    notifyService.showError('Unable to show user data. ' + error.data.message);
                     usSpinnerService.stop('spinner-1');
                 }
             )
@@ -134,12 +143,18 @@ app.controller('UserController',
                 });
         };
 
-        $scope.sendFriendRequest = function () {
+        $scope.sendFriendRequest = function (username) {
             usSpinnerService.spin('spinner-1');
-            userService.sendFriendRequest($routeParams.username).then(
+            var inviteUsername = username ? username : $routeParams.username;
+            userService.sendFriendRequest(inviteUsername).then(
                 function () {
                     notifyService.showInfo('Friend request has been successfully sent');
-                    $scope.getUserFullData();
+                    if (username) {
+                        $scope.userPreviewData.userStatus = 'pending';
+                    } else{
+                        $scope.userFullData.userStatus = 'pending';
+                    }
+
                     usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
@@ -149,9 +164,9 @@ app.controller('UserController',
             )
         };
 
-        $scope.approveFriendRequest = function (id) {
+        $scope.approveFriendRequest = function (request) {
             usSpinnerService.spin('spinner-1');
-            userService.approveFriendRequest(id).then(
+            userService.approveFriendRequest(request.id).then(
                 function () {
                     $scope.getFriendRequests();
                     $scope.getOwnFriendsPreview();
@@ -170,7 +185,7 @@ app.controller('UserController',
             userService.rejectFriendRequest(id).then(
                 function () {
                     $scope.getFriendRequests();
-                    notifyService.showInfo('Friend request from has been rejected');
+                    notifyService.showInfo('Friend request has been rejected');
                     usSpinnerService.stop('spinner-1');
                 },
                 function (error) {
